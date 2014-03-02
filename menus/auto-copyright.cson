@@ -1,0 +1,16 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  '.overlayer':
+      'Enable auto-copyright': 'auto-copyright:toggle'
+
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'auto-copyright'
+      'submenu': [
+        { 'label': 'Toggle', 'command': 'auto-copyright:toggle' }
+      ]
+    ]
+  }
+]
