@@ -1,15 +1,17 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
 'context-menu':
   '.overlayer':
-      'Enable auto-copyright': 'auto-copyright:toggle'
+    'Insert Copyright': 'auto-copyright:insert'
+    'Update Copyright': 'auto-copyright:update'
 
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'auto-copyright'
+      'label': 'Auto Copyright'
       'submenu': [
-        { 'label': 'Toggle', 'command': 'auto-copyright:toggle' }
+        { 'label': 'Insert', 'command': 'auto-copyright:insert' },
+        { 'label': 'Update', 'command': 'auto-copyright:update' }
       ]
     ]
   }
