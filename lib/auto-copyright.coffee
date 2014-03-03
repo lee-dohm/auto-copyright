@@ -1,3 +1,7 @@
+#
+# Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
+#
+
 ConfigMissingError = require './config-missing-error.coffee'
 
 # Public: Module containing all the package methods.
@@ -9,11 +13,31 @@ class AutoCopyright
     atom.workspaceView.command 'auto-copyright:insert', => @insert()
     atom.workspaceView.command 'auto-copyright:update', => @update()
 
+  # Internal: Gets the number of buffer lines to wrap the copyright
+  # text with.
+  #
+  # Returns an {Array} containing the number of lines before and after
+  # the copyrigt text.
+  getBuffer: ->
+    buffer = atom.config.get('auto-copyright.buffer')
+    switch
+      when buffer instanceof Array
+        switch buffer.length
+          when 0 then [0, 0]
+          when 1
+            [buf] = buffer
+            [buf, buf]
+          else buffer
+      when buffer instanceof Number then [buffer, buffer]
+      when buffer instanceof String then [Number(buffer), Number(buffer)]
+      else [0, 0]
+
   # Internal: Gets the raw copyright text to insert.
   #
   # Returns a {String} containing the raw copyright text.
   getCopyrightText: ->
-    @getTemplate().replace('%y', @getYear()).replace('%o', @getOwner())
+    text = @getTemplate().replace('%y', @getYear()).replace('%o', @getOwner())
+    @wrap(text, @getBuffer())
 
   # Internal: Gets the owner information from the configuration.
   #
@@ -25,11 +49,15 @@ class AutoCopyright
 
   # Internal: Gets the copyright template from the configuration.
   #
+  # If there is no template set in the configuration, then it defaults to:
+  #
+  # `Copyright (c) %y by %o. All Rights Reserved.\n`
+  #
   # Returns a {String} containing the copyright template.
   getTemplate: ->
-    template = atom.config.get('auto-copyright.template')
-    throw new ConfigMissingError('auto-copyright.template has not been set') unless template?
-    template
+    template = atom.config.get('auto-copyright.template') ?
+      "Copyright (c) %y by %o. All Rights Reserved."
+    @trim(template) + "\n"
 
   # Internal: Gets the current year.
   #
@@ -41,11 +69,23 @@ class AutoCopyright
   #
   # Returns `undefined`.
   insert: ->
-    editor = atom.workspace.activePaneItem
+    editor = atom.workspace.getActiveEditor()
+    return unless editor?
+
     pos = editor.getCursorBufferPosition()
+
     editor.moveCursorToTop()
-    editor.insertText(@getCopyrightText())
+
+    editor.insertText(@getCopyrightText(), {'select': true})
+    editor.toggleLineCommentsInSelection()
+
     editor.setCursorBufferPosition(pos)
+
+  # Internal: Trims leading and trailing whitespace from `text`.
+  #
+  # Returns a {String} with the leading and trailing whitespace removed.
+  trim: (text) ->
+    text.replace(/^\s+|\s+$/g, '')
 
   # Public: Updates the copyright year if a copyright header is found
   # that matches the copyright template.
@@ -53,5 +93,11 @@ class AutoCopyright
   # Returns `undefined`.
   update: ->
     undefined
+
+  wrap: (text, bufferCounts) ->
+    [before, after] = bufferCounts
+    text = "\n" + text for _ in [1..before] if before > 0
+    text = text + "\n" for _ in [1..after] if after > 0
+    text
 
 module.exports = new AutoCopyright

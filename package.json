@@ -1,5 +1,5 @@
 {
-  "name": "Auto Copyright",
+  "name": "auto-copyright",
   "main": "./lib/auto-copyright",
   "version": "0.0.1",
   "private": true,
