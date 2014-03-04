@@ -54,6 +54,14 @@ describe 'AutoCopyright', ->
       spyOnConfig({})
       expect(AutoCopyright.getBuffer()).toEqual([0, 0])
 
+    it 'returns the array when set with an array', ->
+      spyOnConfig({'buffer': [1, 2, 3, 4, 5]})
+      expect(AutoCopyright.getBuffer()).toEqual([1, 2, 3, 4, 5])
+
+    it 'doubles the first value if given an array with length one', ->
+      spyOnConfig({'buffer': [5]})
+      expect(AutoCopyright.getBuffer()).toEqual([5, 5])
+
     it 'returns the same value for before and after if set as Number', ->
       spyOnConfig({'buffer': 5})
       expect(AutoCopyright.getBuffer()).toEqual([5, 5])

@@ -28,8 +28,7 @@ class AutoCopyright
             [buf] = buffer
             [buf, buf]
           else buffer
-      when buffer instanceof Number then [buffer, buffer]
-      when buffer instanceof String then [Number(buffer), Number(buffer)]
+      when buffer? then [Number(buffer), Number(buffer)]
       else [0, 0]
 
   # Internal: Gets the raw copyright text to insert.
@@ -94,6 +93,9 @@ class AutoCopyright
   update: ->
     undefined
 
+  # Internal: Wraps `text` in some number of newlines before and after it.
+  #
+  # Returns a {String} containing the wrapped text.
   wrap: (text, bufferCounts) ->
     [before, after] = bufferCounts
     text = "\n" + text for _ in [1..before] if before > 0
