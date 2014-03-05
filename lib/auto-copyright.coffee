@@ -13,6 +13,29 @@ class AutoCopyright
     atom.workspaceView.command 'auto-copyright:insert', => @insert()
     atom.workspaceView.command 'auto-copyright:update', => @update()
 
+  # Public: Inserts the copyright text at the top of the current buffer.
+  #
+  # Returns `undefined`.
+  insert: ->
+    editor = atom.workspace.getActiveEditor()
+    return unless editor?
+
+    pos = editor.getCursorBufferPosition()
+
+    editor.moveCursorToTop()
+
+    editor.insertText(@getCopyrightText(), {'select': true})
+    editor.toggleLineCommentsInSelection()
+
+    editor.setCursorBufferPosition(pos)
+
+  # Public: Updates the copyright year if a copyright header is found
+  # that matches the copyright template.
+  #
+  # Returns `undefined`.
+  update: ->
+    undefined
+
   # Internal: Gets the number of buffer lines to wrap the copyright
   # text with.
   #
@@ -64,34 +87,11 @@ class AutoCopyright
   getYear: ->
     new Date().getFullYear()
 
-  # Public: Inserts the copyright text at the top of the current buffer.
-  #
-  # Returns `undefined`.
-  insert: ->
-    editor = atom.workspace.getActiveEditor()
-    return unless editor?
-
-    pos = editor.getCursorBufferPosition()
-
-    editor.moveCursorToTop()
-
-    editor.insertText(@getCopyrightText(), {'select': true})
-    editor.toggleLineCommentsInSelection()
-
-    editor.setCursorBufferPosition(pos)
-
   # Internal: Trims leading and trailing whitespace from `text`.
   #
   # Returns a {String} with the leading and trailing whitespace removed.
   trim: (text) ->
     text.replace(/^\s+|\s+$/g, '')
-
-  # Public: Updates the copyright year if a copyright header is found
-  # that matches the copyright template.
-  #
-  # Returns `undefined`.
-  update: ->
-    undefined
 
   # Internal: Wraps `text` in some number of newlines before and after it.
   #
