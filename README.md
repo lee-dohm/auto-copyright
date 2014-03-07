@@ -31,9 +31,9 @@ You can use the command palette, the Packages menu, the context menu in the buff
 
 Auto Copyright supports the following configuration settings:
 
-* `auto-copyright.buffer` &mdash; Number of blank lines before and after the copyright text. It can also be set to an array of `[before after]`.
+* `auto-copyright.buffer` &mdash; Number of blank lines before and after the copyright text. It can also be set to an array of `[before after]`. (Defaults to: `[0, 0]`)
 * `auto-copyright.owner` &mdash; Owner name to use when creating the copyright text.
-* `auto-copyright.template` &mdash; Copyright template to follow. `%y` will be replaced with the current year. `%o` will be replaced with the owner name.
+* `auto-copyright.template` &mdash; Copyright template to follow. `%y` will be replaced with the current year. `%o` will be replaced with the owner name. (Defaults to: `Copyright (c) %y by %o. All Rights Reserved.`)
 
 ## Copyright
 
