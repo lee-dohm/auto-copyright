@@ -91,12 +91,18 @@ class AutoCopyright
 
   # Internal: Inserts the copyright text at the top of the given `editor`.
   #
+  # Creates an undo transaction so that the multiple steps it takes to
+  # insert the text is one atomic undo action.
+  #
   # editor - {Editor} in which to insert the copyright.
   #
   # Returns `undefined`.
   insertCopyright: (editor) ->
     point = @moveToTop(editor)
-    @insertText(editor)
+
+    editor.transact ->
+      @insertText(editor)
+
     @resetPosition(editor, point)
 
   # Internal: Inserts the copyright text at the current position in the given `editor`.
