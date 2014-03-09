@@ -6,6 +6,9 @@
 class ConfigMissingError extends Error
   name: 'ConfigMissingError'
 
+  # Creates a new instance of the `ConfigMissingError` class.
+  #
+  # @param [String] message Message explaining the cause of the error.
   constructor: (@message) ->
 
 module.exports = ConfigMissingError

@@ -4,6 +4,7 @@
 
 ConfigMissingError = require './config-missing-error'
 
+# Represents the package configuration information.
 class AutoCopyrightConfig
   # Gets the number of buffer lines to place before and after the
   # copyright notice.
