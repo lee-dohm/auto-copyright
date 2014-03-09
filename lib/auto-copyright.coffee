@@ -2,12 +2,11 @@
 # Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
 #
 
+AutoCopyrightConfig = require './auto-copyright-config.coffee'
 ConfigMissingError = require './config-missing-error.coffee'
 
 # Handles the interface between the AutoCopyright package and Atom.
 class AutoCopyright
-  DEFAULT_TEMPLATE = "Copyright (c) %y by %o. All Rights Reserved."
-
   # Performs all required setup when the package is activated.
   activate: ->
     atom.workspaceView.command 'auto-copyright:insert', => @insert()
@@ -25,51 +24,21 @@ class AutoCopyright
   update: ->
     undefined
 
-  # Gets the number of buffer lines to wrap the copyright text with.
+  # Gets the package configuration.
   #
   # @private
-  # @return [Array] Number of lines before and after the copyright text.
-  getBuffer: ->
-    buffer = atom.config.get('auto-copyright.buffer')
-    switch
-      when buffer instanceof Array
-        switch buffer.length
-          when 0 then [0, 0]
-          when 1
-            [buf] = buffer
-            [buf, buf]
-          else buffer
-      when buffer? then [Number(buffer), Number(buffer)]
-      else [0, 0]
+  # @return [AutoCopyrightConfig] Package configuration.
+  getConfig: ->
+    @config = new AutoCopyrightConfig unless @config?
+    @config
 
   # Gets the raw copyright text to insert.
   #
   # @private
   # @return [String] Raw copyright text.
   getCopyrightText: ->
-    text = @getTemplate().replace('%y', @getYear()).replace('%o', @getOwner())
-    @wrap(text, @getBuffer())
-
-  # Gets the owner information from the configuration.
-  #
-  # @private
-  # @return [String] Owner text.
-  getOwner: ->
-    owner = atom.config.get('auto-copyright.owner')
-    throw new ConfigMissingError('auto-copyright.owner has not been set') unless owner?
-    owner
-
-  # Gets the copyright template from the configuration.
-  #
-  # If there is no template set in the configuration, then it defaults to:
-  #
-  # `Copyright (c) %y by %o. All Rights Reserved.\n`
-  #
-  # @private
-  # @return [String] Copyright template text.
-  getTemplate: ->
-    template = atom.config.get('auto-copyright.template') ? DEFAULT_TEMPLATE
-    @trim(template) + "\n"
+    text = @getConfig().getTemplate().replace('%y', @getYear()).replace('%o', @getConfig().getOwner())
+    @wrap(text, @getConfig().getBufferLines())
 
   # Gets the current year.
   #
@@ -140,12 +109,6 @@ class AutoCopyright
   # @param [Point] point Location to which to move the cursor.
   resetPosition: (editor, point) ->
     editor.setCursorBufferPosition(point)
-
-  # Trims leading and trailing whitespace from `text`.
-  #
-  # @return [String] Text with the leading and trailing whitespace removed.
-  trim: (text) ->
-    text.replace(/^\s+|\s+$/g, '')
 
   # Wraps `text` in some number of newlines before and after it.
   #

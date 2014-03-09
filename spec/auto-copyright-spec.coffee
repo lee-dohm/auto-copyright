@@ -34,10 +34,6 @@ describe 'AutoCopyright', ->
       expect(AutoCopyright.getCopyrightText()).
         toEqual("Copyright (c) 3000 by Test Owner. All Rights Reserved.\n")
 
-    it 'throws an exception when there is no owner set', ->
-      spyOnConfig({'template': '%o'})
-      expect(AutoCopyright.getCopyrightText).toThrow()
-
     it 'wraps the text in buffer lines if configured', ->
       spyOnConfig({'template': '%o', 'owner': 'Test Owner', 'buffer': 1})
       expect(AutoCopyright.getCopyrightText()).toEqual("\nTest Owner\n\n")
@@ -45,23 +41,6 @@ describe 'AutoCopyright', ->
     it 'wraps the text in unequal buffer lines if configured with an array', ->
       spyOnConfig({'template': '%o', 'owner': 'Test Owner', 'buffer': [2, 3]})
       expect(AutoCopyright.getCopyrightText()).toEqual("\n\nTest Owner\n\n\n\n")
-
-  describe 'when getting the buffer configuration', ->
-    it 'returns zeros when not set', ->
-      spyOnConfig({})
-      expect(AutoCopyright.getBuffer()).toEqual([0, 0])
-
-    it 'returns the array when set with an array', ->
-      spyOnConfig({'buffer': [1, 2, 3, 4, 5]})
-      expect(AutoCopyright.getBuffer()).toEqual([1, 2, 3, 4, 5])
-
-    it 'doubles the first value if given an array with length one', ->
-      spyOnConfig({'buffer': [5]})
-      expect(AutoCopyright.getBuffer()).toEqual([5, 5])
-
-    it 'returns the same value for before and after if set as Number', ->
-      spyOnConfig({'buffer': 5})
-      expect(AutoCopyright.getBuffer()).toEqual([5, 5])
 
   describe 'when detecting if the editor already has a copyright', ->
     it 'returns false on an empty file', ->
