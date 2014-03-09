@@ -96,7 +96,7 @@ class AutoCopyright
   insertCopyright: (editor) ->
     point = @moveToTop(editor)
 
-    editor.transact ->
+    editor.transact =>
       @insertText(editor)
 
     @resetPosition(editor, point)
