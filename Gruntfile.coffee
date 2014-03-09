@@ -10,7 +10,10 @@ module.exports = (grunt) ->
       }
     },
     shell: {
-      test: {
+      lint: {
+        command: 'coffeelint lib/*'
+      }
+      spec: {
         command: 'apm test'
       }
     }
@@ -18,5 +21,6 @@ module.exports = (grunt) ->
 
   grunt.loadNpmTasks('grunt-codo')
   grunt.loadNpmTasks('grunt-shell')
-  grunt.registerTask('default', ['shell:test', 'codo'])
-  grunt.registerTask('test', ['shell:test'])
+  grunt.registerTask('default', ['spec', 'codo'])
+  grunt.registerTask('spec', ['shell:lint', 'shell:spec'])
+  grunt.registerTask('test', ['spec'])
