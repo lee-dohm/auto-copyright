@@ -37,8 +37,9 @@ class AutoCopyright
   # @private
   # @return [String] Raw copyright text.
   getCopyrightText: ->
-    text = @getConfig().getTemplate().replace('%y', @getYear()).replace('%o', @getConfig().getOwner())
-    @wrap(text, @getConfig().getBufferLines())
+    config = @getConfig()
+    text = config.getTemplate().replace('%y', @getYear()).replace('%o', config.getOwner())
+    @wrap(text, config.getBufferLines())
 
   # Gets the current year.
   #
@@ -47,7 +48,9 @@ class AutoCopyright
   getYear: ->
     new Date().getFullYear()
 
-  # Determines if the supplied `editor` already contains a copyright notice.
+  # Determines if the supplied object already contains a copyright notice.
+  #
+  # Only checks for a copyright notice in the first ten lines of the file.
   #
   # @private
   # @param [Editor, TextBuffer] obj Buffer to check for a copyright notice.
