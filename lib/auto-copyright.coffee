@@ -81,10 +81,20 @@ class AutoCopyright
   # Determines if the supplied `editor` already contains a copyright notice.
   #
   # @private
-  # @param [Editor] editor Buffer to check for a copyright notice.
+  # @param [Editor, TextBuffer] obj Buffer to check for a copyright notice.
   # @return [Boolean] Flag indicating whether this buffer has a copyright notice.
-  hasCopyright: (editor) ->
-    false
+  hasCopyright: (obj) ->
+    return @hasCopyright(obj.buffer) if obj.buffer?
+
+    @hasCopyrightInText(obj.getTextInRange([[0, 0], [10, 0]]))
+
+  # Determines if the supplied text has a copyright notice.
+  #
+  # @private
+  # @param [String] text Text within which to search for a copyright notice.
+  # @return [Boolean] Flag indicating whether this text has a copyright notice.
+  hasCopyrightInText: (text) ->
+    text.match(/Copyright \(c\)/m)
 
   # Inserts the copyright text at the top of the given `editor`.
   #

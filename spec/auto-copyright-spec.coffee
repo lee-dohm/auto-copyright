@@ -2,6 +2,8 @@
 # Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
 #
 
+TextBuffer = require 'text-buffer'
+
 AutoCopyright = require '../lib/auto-copyright'
 ConfigMissingError = require '../lib/config-missing-error'
 
@@ -60,3 +62,40 @@ describe 'AutoCopyright', ->
     it 'returns the same value for before and after if set as Number', ->
       spyOnConfig({'buffer': 5})
       expect(AutoCopyright.getBuffer()).toEqual([5, 5])
+
+  describe 'when detecting if the editor already has a copyright', ->
+    it 'returns false on an empty file', ->
+      buffer = new TextBuffer('')
+
+      expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
+
+    it 'returns false on a file without a copyright notice', ->
+      text = """
+             #
+             # Just an opening comment without a notice
+             #
+             """
+      buffer = new TextBuffer(text)
+
+      expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
+
+    it 'returns true on a file with a copyright notice', ->
+      text = """
+             #
+             # Copyright (c) 3000 by Foo Corp. All Rights Reserved.
+             #
+             """
+      buffer = new TextBuffer(text)
+
+      expect(AutoCopyright.hasCopyright(buffer)).toBeTruthy()
+
+    it 'returns false on a file with a copyright notice past the first ten lines', ->
+      text = """
+             \n\n\n\n\n\n\n\n\n\n
+             #
+             # Copyright (c) 3000 by Foo Corp. All Rights Reserved.
+             #
+             """
+      buffer = new TextBuffer(text)
+
+      expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
