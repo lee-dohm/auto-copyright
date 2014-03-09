@@ -20,5 +20,10 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-codo": "~0.1.0",
     "grunt-shell": "~0.6.4"
+  },
+  "coffeelintConfig": {
+    "max_line_length": {
+      "value": 100
+    }
   }
 }
