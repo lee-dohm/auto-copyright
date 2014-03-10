@@ -68,7 +68,7 @@ class AutoCopyright
   hasCopyrightInText: (text) ->
     text.match(/Copyright \(c\)/m)
 
-  # Inserts the copyright text at the top of the given `editor`.
+  # Inserts the copyright text at the current position.
   #
   # Creates an undo transaction so that the multiple steps it takes to
   # insert the text is one atomic undo action.
@@ -76,42 +76,13 @@ class AutoCopyright
   # @private
   # @param [Editor] editor Buffer in which to insert the copyright.
   insertCopyright: (editor) ->
-    point = @moveToTop(editor)
-
     editor.transact =>
-      @insertText(editor)
+      editor.insertText(@getCopyrightText(), {'select': true})
+      editor.toggleLineCommentsInSelection()
 
-    @resetPosition(editor, point)
-
-  # Inserts the copyright text at the current position in the given `editor`.
-  #
-  # @private
-  # @param [Editor] editor Buffer in which to insert the text.
-  insertText: (editor) ->
-    editor.insertText(@getCopyrightText(), {'select': true})
-    editor.toggleLineCommentsInSelection()
-
-    range = editor.getSelectedBufferRange()
-    editor.setCursorBufferPosition(range.end)
-    editor.insertText("\n")
-
-  # Moves the cursor to the top of the given `editor`.
-  #
-  # @private
-  # @param [Editor] editor Buffer in which to move the cursor.
-  # @return [Point] Location from where the cursor was moved.
-  moveToTop: (editor) ->
-    point = editor.getCursorBufferPosition()
-    editor.moveCursorToTop()
-    point
-
-  # Returns the cursor to the `point` where it started in the given `editor`.
-  #
-  # @private
-  # @param [Editor] editor Buffer in which to move the cursor.
-  # @param [Point] point Location to which to move the cursor.
-  resetPosition: (editor, point) ->
-    editor.setCursorBufferPosition(point)
+      range = editor.getSelectedBufferRange()
+      editor.setCursorBufferPosition(range.end)
+      editor.insertText("\n")
 
   # Wraps `text` in some number of newlines before and after it.
   #
