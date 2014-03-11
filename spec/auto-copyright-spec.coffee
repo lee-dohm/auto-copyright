@@ -49,32 +49,35 @@ describe 'AutoCopyright', ->
       expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
 
     it 'returns false on a file without a copyright notice', ->
-      text = """
-             #
-             # Just an opening comment without a notice
-             #
-             """
-      buffer = new TextBuffer(text)
+      buffer = new TextBuffer(
+        """
+        #
+        # Just an opening comment without a notice
+        #
+        """
+      )
 
       expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
 
     it 'returns true on a file with a copyright notice', ->
-      text = """
-             #
-             # Copyright (c) 3000 by Foo Corp. All Rights Reserved.
-             #
-             """
-      buffer = new TextBuffer(text)
+      buffer = new TextBuffer(
+        """
+        #
+        # Copyright (c) 3000 by Foo Corp. All Rights Reserved.
+        #
+        """
+      )
 
       expect(AutoCopyright.hasCopyright(buffer)).toBeTruthy()
 
     it 'returns false on a file with a copyright notice past the first ten lines', ->
-      text = """
-             \n\n\n\n\n\n\n\n\n\n
-             #
-             # Copyright (c) 3000 by Foo Corp. All Rights Reserved.
-             #
-             """
-      buffer = new TextBuffer(text)
+      buffer = new TextBuffer(
+        """
+        \n\n\n\n\n\n\n\n\n\n
+        #
+        # Copyright (c) 3000 by Foo Corp. All Rights Reserved.
+        #
+        """
+      )
 
       expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()

@@ -84,6 +84,16 @@ class AutoCopyright
       editor.setCursorBufferPosition(range.end)
       editor.insertText("\n")
 
+  convertYear: (text) ->
+    year = Number(text)
+    switch
+      when year <= 49 and year >= 0 then year + 2000
+      when year >= 50 and year < 100 then year + 1900
+      else year
+
+  matchYearSpec: (text) ->
+    [ @convertYear(text) ]
+
   # Creates a string containing `text` concatenated `count` times.
   #
   # @private
