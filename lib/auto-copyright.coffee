@@ -77,7 +77,7 @@ class AutoCopyright
   # @param [Editor] editor Buffer in which to insert the copyright.
   insertCopyright: (editor) ->
     editor.transact =>
-      editor.insertText(@getCopyrightText(), {'select': true})
+      editor.insertText(@getCopyrightText(), select: true)
       editor.toggleLineCommentsInSelection()
 
       range = editor.getSelectedBufferRange()
