@@ -12,12 +12,12 @@ class AutoCopyright
     atom.workspaceView.command 'auto-copyright:insert', => @insert()
     atom.workspaceView.command 'auto-copyright:update', => @update()
 
-  # Inserts the copyright text at the top of the current buffer.
+  # Inserts the copyright text at the current position in the buffer.
   insert: ->
     editor = atom.workspace.getActiveEditor()
     return unless editor?
 
-    @insertCopyright(editor) unless @hasCopyright(editor)
+    @insertCopyright(editor)
 
   # Updates the copyright year if a copyright header is found that
   # matches the copyright template.
