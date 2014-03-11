@@ -6,26 +6,13 @@ ConfigMissingError = require './config-missing-error'
 
 # Represents the package configuration information.
 class AutoCopyrightConfig
-  @config: atom.config.get('auto-copyright')
-  @observer: (value) ->
-    @config = value
-  @unobserve: null
-
-  # Constructs a new instance of the `AutoCopyrightConfig` class.
-  #
-  # Configures all the configuration observation callbacks.
-  constructor: ->
-    AutoCopyrightConfig.unobserve() if AutoCopyrightConfig.unobserve?
-    AutoCopyrightConfig.unobserve =
-      atom.config.observe('auto-copyright', AutoCopyrightConfig.observer)
-
   # Gets the number of buffer lines to place before and after the
   # copyright notice.
   #
   # @return [Array] Array containing the count of lines before and
   #                 after the copyright notice line, respectively.
   getBufferLines: ->
-    buffer = AutoCopyrightConfig.buffer
+    buffer = atom.config.get('auto-copyright.buffer')
     switch
       when buffer instanceof Array
         switch buffer.length
@@ -41,7 +28,7 @@ class AutoCopyrightConfig
   #
   # @return [String] Owner text to place in the copyright notice.
   getOwner: ->
-    owner = AutoCopyrightConfig.owner
+    owner = atom.config.get('auto-copyright.owner')
     throw new ConfigMissingError('No owner text set') unless owner?
     owner
 
@@ -54,7 +41,7 @@ class AutoCopyrightConfig
   # @return [String] Copyright notice template text.
   getTemplate: ->
     template =
-      AutoCopyrightConfig.template or 'Copyright (c) %y by %o. All Rights Reserved.'
+      atom.config.get('auto-copyright.template') or 'Copyright (c) %y by %o. All Rights Reserved.'
 
     template + "\n"
 
