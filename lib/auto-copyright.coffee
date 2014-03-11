@@ -84,13 +84,22 @@ class AutoCopyright
       editor.setCursorBufferPosition(range.end)
       editor.insertText("\n")
 
+  # Creates a string containing `text` concatenated `count` times.
+  #
+  # @private
+  # @param [String] text Text to repeat.
+  # @paarm [Number] count Number of times to repeat.
+  # @return [String] Repeated text.
+  multiplyText: (text, count) ->
+    Array(count + 1).join(text)
+
   # Wraps `text` in some number of newlines before and after it.
   #
   # @return [String] Contains the wrapped text.
   wrap: (text, bufferCounts) ->
     [before, after] = bufferCounts
-    text = "\n" + text for _ in [1..before] if before > 0
-    text = text + "\n" for _ in [1..after] if after > 0
-    text
+    prebuffer = @multiplyText("\n", before)
+    postbuffer = @multiplyText("\n", after)
+    prebuffer + text + postbuffer
 
 module.exports = new AutoCopyright
