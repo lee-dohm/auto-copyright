@@ -16,7 +16,8 @@ class AutoCopyrightConfig
   # Configures all the configuration observation callbacks.
   constructor: ->
     AutoCopyrightConfig.unobserve() if AutoCopyrightConfig.unobserve?
-    AutoCopyrightConfig.unobserve = atom.config.observe('auto-copyright', AutoCopyrightConfig.observer)
+    AutoCopyrightConfig.unobserve =
+      atom.config.observe('auto-copyright', AutoCopyrightConfig.observer)
 
   # Gets the number of buffer lines to place before and after the
   # copyright notice.
