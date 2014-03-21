@@ -1,8 +1,6 @@
-# See https://atom.io/docs/latest/creating-a-package#menus for more details
 'context-menu':
   '.overlayer':
     'Insert Copyright': 'auto-copyright:insert'
-    'Update Copyright': 'auto-copyright:update'
 
 'menu': [
   {
@@ -10,8 +8,7 @@
     'submenu': [
       'label': 'Auto Copyright'
       'submenu': [
-        { 'label': 'Insert', 'command': 'auto-copyright:insert' },
-        { 'label': 'Update', 'command': 'auto-copyright:update' }
+        { 'label': 'Insert', 'command': 'auto-copyright:insert' }
       ]
     ]
   }

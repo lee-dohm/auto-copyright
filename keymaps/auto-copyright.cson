@@ -1,8 +1,0 @@
-#
-# Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
-#
-
-'.platform-darwin .editor':
-  'cmd-k cmd-i': 'auto-copyright:insert'
-'.platform-win32 .editor':
-  'ctrl-k ctrl-i': 'auto-copyright:insert'

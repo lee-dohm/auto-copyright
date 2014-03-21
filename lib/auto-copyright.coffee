@@ -11,7 +11,7 @@ class AutoCopyright
   # Performs all required setup when the package is activated.
   activate: ->
     atom.workspaceView.command 'auto-copyright:insert', => @insert()
-    atom.workspaceView.command 'auto-copyright:update', => @update()
+    # atom.workspaceView.command 'auto-copyright:update', => @update()
 
   # Inserts the copyright text at the current position in the buffer.
   insert: ->
