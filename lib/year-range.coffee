@@ -11,7 +11,7 @@ class YearRange
   #
   # @param [String] text Year range to convert.
   constructor: (text) ->
-    @convert(text)
+    @convert(text.toString())
 
   toString: ->
     throw Error('@values is undefined') unless @values?

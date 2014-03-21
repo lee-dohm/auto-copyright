@@ -2,8 +2,9 @@
 # Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
 #
 
-AutoCopyrightConfig = require './auto-copyright-config.coffee'
-ConfigMissingError = require './config-missing-error.coffee'
+AutoCopyrightConfig = require './auto-copyright-config'
+ConfigMissingError = require './config-missing-error'
+YearRange = require './year-range'
 
 # Handles the interface between the AutoCopyright package and Atom.
 class AutoCopyright
@@ -41,12 +42,12 @@ class AutoCopyright
     text = config.getTemplate().replace('%y', @getYear()).replace('%o', config.getOwner())
     @wrap(text, config.getBufferLines())
 
-  # Gets the current year.
+  # Gets the current year and formats as a year range.
   #
   # @private
-  # @return [String] Current four-digit year.
+  # @return [YearRange] Current year as a year range.
   getYear: ->
-    new Date().getFullYear()
+    new YearRange(new Date().getFullYear())
 
   # Determines if the supplied object already contains a copyright notice.
   #
@@ -83,16 +84,6 @@ class AutoCopyright
       range = editor.getSelectedBufferRange()
       editor.setCursorBufferPosition(range.end)
       editor.insertText("\n")
-
-  convertYear: (text) ->
-    year = Number(text)
-    switch
-      when year <= 49 and year >= 0 then year + 2000
-      when year >= 50 and year < 100 then year + 1900
-      else year
-
-  matchYearSpec: (text) ->
-    [ @convertYear(text) ]
 
   # Creates a string containing `text` concatenated `count` times.
   #
