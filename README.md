@@ -1,6 +1,6 @@
-# Atom Auto-Copyright
+# Auto-Copyright
 
-Inserts and automatically updates the standard copyright notice at the top of the file.
+Inserts the standard copyright notice.
 
 ## Installation
 
@@ -9,7 +9,10 @@ This package can be installed from Settings by searching for `auto-copyright` or
 ## Features
 
 * Inserts a copyright comment block at the beginning of the file
-* Updates an existing copyright comment block if the year needs updating
+
+### Planned
+
+* Updates a copyright block automatically on save.
 
 ## Use
 
@@ -22,10 +25,6 @@ You can use the command palette, the Packages menu, the context menu in the buff
 ```
 
 It can be configured to say as much or as little as you want, though.
-
-### Update
-
-You can use the command palette, the Packages menu, the context menu in the buffer or just let it update on save.
 
 ## Configuration
 
