@@ -1,10 +1,13 @@
 {
   "name": "auto-copyright",
   "main": "./lib/auto-copyright",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "description": "Inserts and automatically updates the standard copyright notice at the top of the file.",
-  "activationEvents": ["auto-copyright:insert", "auto-copyright:update"],
+  "activationEvents": [
+    "auto-copyright:insert",
+    "auto-copyright:update"
+  ],
   "repository": "https://github.com/lee-dohm/auto-copyright",
   "license": "MIT",
   "engines": {
