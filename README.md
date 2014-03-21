@@ -18,7 +18,7 @@ This package can be installed from Settings by searching for `auto-copyright` or
 
 ### Insert
 
-You can use the command palette, the Packages menu, the context menu in the buffer or the keymapping, <kbd>⌘K ⌘I</kbd>. This inserts the configured copyright text with the current year and configured owner text as a comment at the top of the file. The default copyright text looks like this:
+You can use the command palette, the Packages menu or the context menu in the buffer. This inserts the configured copyright text with the current year and configured owner text as a comment at the top of the file. The default copyright text looks like this:
 
 ```ruby
 # Copyright (c) 2014 by Some Company. All Rights Reserved.
