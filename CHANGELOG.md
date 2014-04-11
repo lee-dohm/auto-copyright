@@ -2,7 +2,8 @@
 
 ## **(master)** &mdash; *Unreleased*
 
-* Added this CHANGELOG
+* :hammer: No longer inserts a copyright if one already exists in the file
+* :memo: Added this CHANGELOG
 
 ## **v0.1.1** &mdash; *Released: 21 March 2014*
 

@@ -77,13 +77,14 @@ class AutoCopyright
   # @private
   # @param [Editor] editor Buffer in which to insert the copyright.
   insertCopyright: (editor) ->
-    editor.transact =>
-      editor.insertText(@getCopyrightText(), select: true)
-      editor.toggleLineCommentsInSelection()
+    if !@hasCopyright(editor)
+      editor.transact =>
+        editor.insertText(@getCopyrightText(), select: true)
+        editor.toggleLineCommentsInSelection()
 
-      range = editor.getSelectedBufferRange()
-      editor.setCursorBufferPosition(range.end)
-      editor.insertText("\n")
+        range = editor.getSelectedBufferRange()
+        editor.setCursorBufferPosition(range.end)
+        editor.insertText("\n")
 
   # Creates a string containing `text` concatenated `count` times.
   #
