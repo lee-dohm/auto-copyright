@@ -8,7 +8,7 @@ This package can be installed from Settings by searching for `auto-copyright` or
 
 ## Features
 
-* Inserts a copyright comment block at the beginning of the file
+* Inserts a copyright comment block at the current cursor position
 
 ### Planned
 
