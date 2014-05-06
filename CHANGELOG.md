@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## **(master)** &mdash; *Unreleased*
+## **v0.1.2** &mdash; *Released: 5 May 2014*
 
+* Added Travis CI support and README badge
 * :hammer: No longer inserts a copyright if one already exists in the file
 * :memo: Added this CHANGELOG
 
