@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lee-dohm/auto-copyright.svg?branch=master)](https://travis-ci.org/lee-dohm/auto-copyright)
+
 # Auto-Copyright
 
 Inserts the standard copyright notice.
