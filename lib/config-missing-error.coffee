@@ -2,12 +2,13 @@
 # Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
 #
 
-# Error that occurs when a configuration item is missing.
+# Public: Error that occurs when a configuration item is missing.
 module.exports =
 class ConfigMissingError extends Error
+  # Internal: Name of the error.
   name: 'ConfigMissingError'
 
-  # Creates a new instance of the `ConfigMissingError` class.
+  # Public: Creates a new instance of the `ConfigMissingError` class.
   #
-  # @param [String] message Message explaining the cause of the error.
+  # message - {String} message explaining the cause of the error.
   constructor: (@message) ->

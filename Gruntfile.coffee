@@ -3,13 +3,13 @@
 #
 
 module.exports = (grunt) ->
+  grunt.loadNpmTasks('grunt-shell')
+
   grunt.initConfig {
-    codo: {
-      options: {
-        inputs: ['lib']
-      }
-    },
     shell: {
+      doc: {
+        doc: 'biscotto'
+      }
       lint: {
         command: 'coffeelint lib/*'
       }
@@ -19,8 +19,6 @@ module.exports = (grunt) ->
     }
   }
 
-  grunt.loadNpmTasks('grunt-codo')
-  grunt.loadNpmTasks('grunt-shell')
-  grunt.registerTask('default', ['spec', 'codo'])
+  grunt.registerTask('default', ['spec', 'shell:doc'])
   grunt.registerTask('spec', ['shell:lint', 'shell:spec'])
   grunt.registerTask('test', ['spec'])

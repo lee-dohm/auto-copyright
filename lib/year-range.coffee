@@ -2,18 +2,21 @@
 # Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
 #
 
-# Represents an arbitrary collection of copyright years.
+# Public: Represents an arbitrary collection of copyright years.
 module.exports =
 class YearRange
-  # Array of years the copyright applies to.
+  # Internal: Array of years the copyright applies to.
   values: null
 
-  # Initializes a new instance of the `YearRange` class.
+  # Public: Initializes a new instance of the `YearRange` class.
   #
-  # @param [String] text Year range to convert.
+  # text - {String} of the year range to convert.
   constructor: (text) ->
     @convert(text.toString())
 
+  # Public: Returns the year range as a `String`.
+  #
+  # Returns the year range as a {String}.
   toString: ->
     throw Error('@values is undefined') unless @values?
 
@@ -38,10 +41,9 @@ class YearRange
 
     text
 
-  # Converts the text representation into a numeric array representation.
+  # Internal: Converts the text representation into a numeric array representation.
   #
-  # @private
-  # @param [String] text Year range to convert.
+  # text - {String} of the year range to convert.
   convert: (text) ->
     unless text.match /\d{4}(-\d{4})?((,\s*\d{4})|(\d{4}-\d{4}))*/
       throw new Error('Not a valid year range')
@@ -51,13 +53,12 @@ class YearRange
     temp = temp.concat(@convertItem(item)) for item in items
     @values = temp
 
-  # Converts the text representation of a single element of a year
-  # range into a numeric array representation.
+  # Internal: Converts the text representation of a single element of a year range into a numeric
+  # array representation.
   #
-  # @private
-  # @param [String] text Component of a year range.
-  # @return [Array, Number] Either an array of numbers representing a
-  #   year range or a single year.
+  # text - {String} containing a component of a year range.
+  #
+  # Returns either an {Array} of numbers representing a year range or a single year {Number}.
   convertItem: (text) ->
     if text.match /\d{4}-\d{4}/
       [start, end] = text.split('-')
