@@ -2,8 +2,8 @@
 
 ## **v0.1.2** &mdash; *Released: 5 May 2014*
 
-* Added Travis CI support and README badge
-* :hammer: No longer inserts a copyright if one already exists in the file
+* :green_heart: Added Travis CI support and README badge
+* :bug: No longer inserts a copyright if one already exists in the file
 * :memo: Added this CHANGELOG
 
 ## **v0.1.1** &mdash; *Released: 21 March 2014*
