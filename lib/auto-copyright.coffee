@@ -30,8 +30,7 @@ class AutoCopyright
   # @private
   # @return [AutoCopyrightConfig] Package configuration.
   getConfig: ->
-    @config = new AutoCopyrightConfig unless @config?
-    @config
+    @config ?= new AutoCopyrightConfig
 
   # Gets the raw copyright text to insert.
   #

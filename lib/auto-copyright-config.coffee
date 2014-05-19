@@ -5,6 +5,7 @@
 ConfigMissingError = require './config-missing-error'
 
 # Represents the package configuration information.
+module.exports =
 class AutoCopyrightConfig
   # Gets the number of buffer lines to place before and after the
   # copyright notice.
@@ -44,5 +45,3 @@ class AutoCopyrightConfig
       atom.config.get('auto-copyright.template') or 'Copyright (c) %y by %o. All Rights Reserved.'
 
     template + "\n"
-
-module.exports = AutoCopyrightConfig

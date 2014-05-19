@@ -3,6 +3,7 @@
 #
 
 # Represents an arbitrary collection of copyright years.
+module.exports =
 class YearRange
   # Array of years the copyright applies to.
   values: null
@@ -63,5 +64,3 @@ class YearRange
       [Number(start)..Number(end)]
     else
       Number(text)
-
-module.exports = YearRange

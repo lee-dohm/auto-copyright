@@ -3,6 +3,7 @@
 #
 
 # Error that occurs when a configuration item is missing.
+module.exports =
 class ConfigMissingError extends Error
   name: 'ConfigMissingError'
 
@@ -10,5 +11,3 @@ class ConfigMissingError extends Error
   #
   # @param [String] message Message explaining the cause of the error.
   constructor: (@message) ->
-
-module.exports = ConfigMissingError

@@ -81,3 +81,14 @@ describe 'AutoCopyright', ->
       )
 
       expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
+
+  describe 'getConfig', ->
+    it 'gets the configuration when called the first time', ->
+      expect(AutoCopyright.getConfig()).toBeDefined()
+
+    it 'gets the configuration when called the second time', ->
+      AutoCopyright.getConfig()
+      expect(AutoCopyright.getConfig()).toBeDefined()
+
+    it 'returns the same config object both times', ->
+      expect(AutoCopyright.getConfig()).toBe(AutoCopyright.getConfig())
