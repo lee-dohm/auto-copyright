@@ -7,9 +7,7 @@ YearRange = require '../lib/year-range'
 describe 'YearRange', ->
   describe 'when constructing a year range', ->
     it 'rejects strings that contain anything other than digits, commas and hyphens', ->
-      expect( ->
-        new YearRange('/')
-      ).toThrow()
+      expect( -> new YearRange('/')).toThrow()
 
     it 'accepts strings that contain a single four-digit year', ->
       expect(new YearRange('3000').values).toEqual([3000])
