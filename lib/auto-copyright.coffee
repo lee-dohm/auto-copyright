@@ -25,13 +25,13 @@ class AutoCopyright
   update: ->
     undefined
 
-  # Internal: Gets the package configuration.
+  # Private: Gets the package configuration.
   #
   # Returns the package configuration in an {AutoCopyrightConfig}.
   getConfig: ->
-    @config ?= new AutoCopyrightConfig
+    @config ?= new AutoCopyrightConfig()
 
-  # Internal: Gets the raw copyright text to insert.
+  # Private: Gets the raw copyright text to insert.
   #
   # Returns a {String} with the raw copyright text.
   getCopyrightText: ->
@@ -39,13 +39,13 @@ class AutoCopyright
     text = config.getTemplate().replace('%y', @getYear()).replace('%o', config.getOwner())
     @wrap(text, config.getBufferLines())
 
-  # Internal: Gets the current year and formats as a year range.
+  # Private: Gets the current year and formats as a year range.
   #
   # Returns a {YearRange} containing the current year.
   getYear: ->
     new YearRange(new Date().getFullYear())
 
-  # Internal: Determines if the supplied object already contains a copyright notice.
+  # Private: Determines if the supplied object already contains a copyright notice.
   #
   # Only checks for a copyright notice in the first ten lines of the file.
   #
@@ -57,7 +57,7 @@ class AutoCopyright
 
     @hasCopyrightInText(obj.getTextInRange([[0, 0], [10, 0]]))
 
-  # Internal: Determines if the supplied text has a copyright notice.
+  # Private: Determines if the supplied text has a copyright notice.
   #
   # text - A {String} of the text within which to search for a copyright notice.
   #
@@ -65,7 +65,7 @@ class AutoCopyright
   hasCopyrightInText: (text) ->
     text.match(/Copyright \(c\)/m)
 
-  # Internal: Inserts the copyright text at the current position.
+  # Private: Inserts the copyright text at the current position.
   #
   # Creates an undo transaction so that the multiple steps it takes to insert the text is one atomic
   # undo action.
@@ -81,7 +81,7 @@ class AutoCopyright
         editor.setCursorBufferPosition(range.end)
         editor.insertText("\n")
 
-  # Internal: Creates a string containing `text` concatenated `count` times.
+  # Private: Creates a string containing `text` concatenated `count` times.
   #
   # text - {String} of the text to repeat.
   # count - {Number} of times to repeat.
@@ -90,7 +90,7 @@ class AutoCopyright
   multiplyText: (text, count) ->
     Array(count + 1).join(text)
 
-  # Internal: Wraps `text` in some number of newlines before and after it.
+  # Private: Wraps `text` in some number of newlines before and after it.
   #
   # Returns a {String} containing the wrapped text.
   wrap: (text, bufferCounts) ->
@@ -99,4 +99,4 @@ class AutoCopyright
     postbuffer = @multiplyText("\n", after)
     prebuffer + text + postbuffer
 
-module.exports = new AutoCopyright
+module.exports = new AutoCopyright()
