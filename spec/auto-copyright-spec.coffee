@@ -2,31 +2,39 @@
 # Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
 #
 
+fs = require 'fs-plus'
+path = require 'path'
+temp = require 'temp'
 {WorkspaceView} = require 'atom'
-TextBuffer = require 'text-buffer'
 
 AutoCopyright = require '../lib/auto-copyright'
 ConfigMissingError = require '../lib/config-missing-error'
 
 describe 'AutoCopyright', ->
+  [buffer, editor] = []
+
+  beforeEach ->
+    directory = temp.mkdirSync()
+    atom.project.setPath(directory)
+    atom.workspaceView = new WorkspaceView()
+    atom.workspace = atom.workspaceView.model
+    filePath = path.join(directory, 'sample.coffee')
+    fs.writeFileSync(filePath, '')
+
+    waitsForPromise ->
+      atom.packages.activatePackage('language-coffee-script')
+
+    waitsForPromise ->
+      atom.workspace.open('sample.coffee').then (e) ->
+        editor = e
+        buffer = editor.getBuffer()
+
   describe 'inserting copyright text', ->
-    [buffer, editor] = []
-
     beforeEach ->
-      atom.workspaceView = new WorkspaceView()
-      atom.workspace = atom.workspaceView.model
-
       spyOn(AutoCopyright, 'getYear').andReturn('3000')
 
       atom.config.set 'auto-copyright',
         owner: 'Test Owner'
-
-      waitsForPromise ->
-        atom.packages.activatePackage('language-coffee-script')
-
-      waitsForPromise ->
-        atom.workspace.open('sample.coffee').then (e) ->
-          editor = e
 
     it 'inserts the copyright text', ->
       AutoCopyright.insertCopyright(editor)
@@ -81,12 +89,10 @@ describe 'AutoCopyright', ->
 
   describe 'when detecting if the editor already has a copyright', ->
     it 'returns false on an empty file', ->
-      buffer = new TextBuffer('')
-
       expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
 
     it 'returns false on a file without a copyright notice', ->
-      buffer = new TextBuffer(
+      buffer.setText(
         """
         #
         # Just an opening comment without a notice
@@ -97,7 +103,7 @@ describe 'AutoCopyright', ->
       expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
 
     it 'returns true on a file with a copyright notice', ->
-      buffer = new TextBuffer(
+      buffer.setText(
         """
         #
         # Copyright (c) 3000 by Foo Corp. All Rights Reserved.
@@ -108,7 +114,7 @@ describe 'AutoCopyright', ->
       expect(AutoCopyright.hasCopyright(buffer)).toBeTruthy()
 
     it 'returns false on a file with a copyright notice past the first ten lines', ->
-      buffer = new TextBuffer(
+      buffer.setText(
         """
         \n\n\n\n\n\n\n\n\n\n
         #
