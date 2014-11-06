@@ -8,7 +8,6 @@ temp = require 'temp'
 {WorkspaceView} = require 'atom'
 
 AutoCopyright = require '../lib/auto-copyright'
-ConfigMissingError = require '../lib/config-missing-error'
 
 describe 'AutoCopyright', ->
   [buffer, editor] = []
@@ -20,6 +19,9 @@ describe 'AutoCopyright', ->
     atom.workspace = atom.workspaceView.model
     filePath = path.join(directory, 'sample.coffee')
     fs.writeFileSync(filePath, '')
+
+    atom.config.set('auto-copyright.template', 'Copyright (c) %y by %o. All Rights Reserved.')
+    atom.config.set('auto-copyright.buffer', 0)
 
     waitsForPromise ->
       atom.packages.activatePackage('language-coffee-script')
@@ -33,8 +35,7 @@ describe 'AutoCopyright', ->
     beforeEach ->
       spyOn(AutoCopyright, 'getYear').andReturn('3000')
 
-      atom.config.set 'auto-copyright',
-        owner: 'Test Owner'
+      atom.config.set('auto-copyright.owner', 'Test Owner')
 
     it 'inserts the copyright text', ->
       AutoCopyright.insertCopyright(editor)
@@ -45,6 +46,7 @@ describe 'AutoCopyright', ->
       atom.config.set 'auto-copyright',
         template: 'template test'
         owner: 'Test Owner'
+        buffer: 0
 
       expect(AutoCopyright.getCopyrightText()).toEqual("template test\n")
 
@@ -52,6 +54,7 @@ describe 'AutoCopyright', ->
       atom.config.set 'auto-copyright',
         template: '%y'
         owner: 'Test Owner'
+        buffer: 0
 
       spyOn(AutoCopyright, 'getYear').andReturn('3000')
       expect(AutoCopyright.getCopyrightText()).toEqual("3000\n")
@@ -60,16 +63,9 @@ describe 'AutoCopyright', ->
       atom.config.set 'auto-copyright',
         template: '%o'
         owner: 'Test Owner'
+        buffer: 0
 
       expect(AutoCopyright.getCopyrightText()).toEqual("Test Owner\n")
-
-    it 'has a sensible default template', ->
-      atom.config.set 'auto-copyright',
-        owner: 'Test Owner'
-
-      spyOn(AutoCopyright, 'getYear').andReturn('3000')
-      expect(AutoCopyright.getCopyrightText()).
-        toEqual("Copyright (c) 3000 by Test Owner. All Rights Reserved.\n")
 
     it 'wraps the text in buffer lines if configured', ->
       atom.config.set 'auto-copyright',
@@ -78,14 +74,6 @@ describe 'AutoCopyright', ->
         buffer: 1
 
       expect(AutoCopyright.getCopyrightText()).toEqual("\nTest Owner\n\n")
-
-    it 'wraps the text in unequal buffer lines if configured with an array', ->
-      atom.config.set 'auto-copyright',
-        template: '%o'
-        owner: 'Test Owner'
-        buffer: [2, 3]
-
-      expect(AutoCopyright.getCopyrightText()).toEqual("\n\nTest Owner\n\n\n\n")
 
   describe 'when detecting if the editor already has a copyright', ->
     it 'returns false on an empty file', ->
@@ -124,14 +112,3 @@ describe 'AutoCopyright', ->
       )
 
       expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
-
-  describe 'getConfig', ->
-    it 'gets the configuration when called the first time', ->
-      expect(AutoCopyright.getConfig()).toBeDefined()
-
-    it 'gets the configuration when called the second time', ->
-      AutoCopyright.getConfig()
-      expect(AutoCopyright.getConfig()).toBeDefined()
-
-    it 'returns the same config object both times', ->
-      expect(AutoCopyright.getConfig()).toBe(AutoCopyright.getConfig())

@@ -2,16 +2,25 @@
 # Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
 #
 
-AutoCopyrightConfig = require './auto-copyright-config'
-ConfigMissingError = require './config-missing-error'
 YearRange = require './year-range'
 
 # Public: Handles the interface between the AutoCopyright package and Atom.
 class AutoCopyright
+  config:
+    buffer:
+      type: 'integer'
+      default: 1
+      minimum: 0
+      maximum: 5
+    owner:
+      type: 'string'
+    template:
+      type: 'string'
+      default: 'Copyright (c) %y by %o. All Rights Reserved.'
+
   # Public: Performs all required setup when the package is activated.
   activate: ->
     atom.workspaceView.command 'auto-copyright:insert', => @insert()
-    # atom.workspaceView.command 'auto-copyright:update', => @update()
 
   # Public: Inserts the copyright text at the current position in the buffer.
   insert: ->
@@ -20,24 +29,15 @@ class AutoCopyright
 
     @insertCopyright(editor)
 
-  # Public: Updates the copyright year if a copyright header is found that matches the copyright
-  # template.
-  update: ->
-    undefined
-
-  # Private: Gets the package configuration.
-  #
-  # Returns the package configuration in an {AutoCopyrightConfig}.
-  getConfig: ->
-    @config ?= new AutoCopyrightConfig()
-
   # Private: Gets the raw copyright text to insert.
   #
   # Returns a {String} with the raw copyright text.
   getCopyrightText: ->
-    config = @getConfig()
-    text = config.getTemplate().replace('%y', @getYear()).replace('%o', config.getOwner())
-    @wrap(text, config.getBufferLines())
+    text = (atom.config.get('auto-copyright.template') + "\n")
+                       .replace('%y', @getYear())
+                       .replace('%o', atom.config.get('auto-copyright.owner'))
+
+    @wrap(text, atom.config.get('auto-copyright.buffer'))
 
   # Private: Gets the current year and formats as a year range.
   #
@@ -93,10 +93,9 @@ class AutoCopyright
   # Private: Wraps `text` in some number of newlines before and after it.
   #
   # Returns a {String} containing the wrapped text.
-  wrap: (text, bufferCounts) ->
-    [before, after] = bufferCounts
-    prebuffer = @multiplyText("\n", before)
-    postbuffer = @multiplyText("\n", after)
+  wrap: (text, buffer) ->
+    prebuffer = @multiplyText("\n", buffer)
+    postbuffer = @multiplyText("\n", buffer)
     prebuffer + text + postbuffer
 
 module.exports = new AutoCopyright()
