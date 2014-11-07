@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.2.0** &mdash; *Released: 6 November 2014*
+
+* :sparkles: Implement the new configuration system
+
 ## **v0.1.3** &mdash; *Released: 15 August 2014*
 
 * :bug: Fix for issue with updated Chromium version

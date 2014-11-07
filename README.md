@@ -2,7 +2,7 @@
 
 # Auto-Copyright
 
-Inserts the standard copyright notice.
+Inserts a copyright notice.
 
 ## Installation
 
@@ -23,7 +23,9 @@ This package can be installed from Settings by searching for `auto-copyright` or
 You can use the command palette, the Packages menu or the context menu in the buffer. This inserts the configured copyright text with the current year and configured owner text as a comment at the top of the file. The default copyright text looks like this:
 
 ```ruby
+#
 # Copyright (c) 2014 by Some Company. All Rights Reserved.
+#
 ```
 
 It can be configured to say as much or as little as you want, though.
@@ -32,7 +34,7 @@ It can be configured to say as much or as little as you want, though.
 
 Auto Copyright supports the following configuration settings:
 
-* `auto-copyright.buffer` &mdash; Number of blank lines before and after the copyright text. It can also be set to an array of `[before after]`. (Defaults to: `[0, 0]`)
+* `auto-copyright.buffer` &mdash; Number of blank lines before and after the copyright text. (Defaults to: `1`)
 * `auto-copyright.owner` &mdash; Owner name to use when creating the copyright text.
 * `auto-copyright.template` &mdash; Copyright template to follow. `%y` will be replaced with the current year. `%o` will be replaced with the owner name. (Defaults to: `Copyright (c) %y by %o. All Rights Reserved.`)
 
