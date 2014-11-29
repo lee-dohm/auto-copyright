@@ -15,7 +15,7 @@ class AutoCopyright
       maximum: 5
     owner:
       type: 'string'
-      default: 'Placeholder Inc.'
+      default: 'Placeholder Corporation'
     template:
       type: 'string'
       default: 'Copyright (c) %y by %o. All Rights Reserved.'
