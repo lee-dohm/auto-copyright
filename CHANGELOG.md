@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **master** &mdash; *Unreleased*
+
+* :sparkles: [#7](https://github.com/lee-dohm/auto-copyright/issues/7) &mdash; Insert copyright command now inserts at the top of the file
+
 ## **v0.2.0** &mdash; *Released: 6 November 2014*
 
 * :sparkles: Implement the new configuration system

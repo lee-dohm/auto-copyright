@@ -34,9 +34,8 @@ class AutoCopyright
   #
   # Returns a {String} with the raw copyright text.
   getCopyrightText: ->
-    text = (atom.config.get('auto-copyright.template') + "\n")
-                       .replace('%y', @getYear())
-                       .replace('%o', atom.config.get('auto-copyright.owner'))
+    text = atom.config.get('auto-copyright.template') + "\n"
+    text = text.replace('%y', @getYear()).replace('%o', atom.config.get('auto-copyright.owner'))
 
     @wrap(text, atom.config.get('auto-copyright.buffer'))
 
@@ -50,7 +49,7 @@ class AutoCopyright
   #
   # Only checks for a copyright notice in the first ten lines of the file.
   #
-  # * `obj` Buffer to check for a copyright notice, either an {TextEditor} or {TextBuffer}
+  # * `obj` Buffer to check for a copyright notice, either a {TextEditor} or {TextBuffer}.
   #
   # Returns a {Boolean} indicating whether this buffer has a copyright notice.
   hasCopyright: (obj) ->
@@ -68,19 +67,19 @@ class AutoCopyright
 
   # Private: Inserts the copyright text at the current position.
   #
-  # Creates an undo transaction so that the multiple steps it takes to insert the text is one atomic
-  # undo action.
-  #
   # * `editor` {TextEditor} in which to insert the copyright.
   insertCopyright: (editor) ->
-    if !@hasCopyright(editor)
-      editor.transact =>
-        editor.insertText(@getCopyrightText(), select: true)
-        editor.toggleLineCommentsInSelection()
+    if not @hasCopyright(editor)
+      @restoreCursor editor, =>
+        editor.transact =>
+          editor.setCursorBufferPosition([0, 0], autoscroll: false)
 
-        range = editor.getSelectedBufferRange()
-        editor.setCursorBufferPosition(range.end)
-        editor.insertText("\n")
+          editor.insertText(@getCopyrightText(), select: true)
+          editor.toggleLineCommentsInSelection()
+
+          range = editor.getSelectedBufferRange()
+          editor.setCursorBufferPosition(range.end)
+          editor.insertText("\n")
 
   # Private: Creates a string containing `text` concatenated `count` times.
   #
@@ -90,6 +89,18 @@ class AutoCopyright
   # Returns a {String} of the repeated text.
   multiplyText: (text, count) ->
     Array(count + 1).join(text)
+
+  # Private: After `callback` is called, puts the cursor back where it was before.
+  #
+  # * `editor` {TextEditor} where the cursor is.
+  # * `callback` A {Function} that manipulates the cursor position.
+  restoreCursor: (editor, callback) ->
+    marker = editor.markBufferPosition(editor.getCursorBufferPosition(), persistent: false)
+
+    callback()
+
+    editor.setCursorBufferPosition(marker.getHeadBufferPosition())
+    marker.destroy()
 
   # Private: Wraps `text` in some number of newlines before and after it.
   #

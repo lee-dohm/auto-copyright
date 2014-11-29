@@ -41,6 +41,31 @@ describe 'AutoCopyright', ->
       AutoCopyright.insertCopyright(editor)
       expect(editor.getText()).toBe("# Copyright (c) 3000 by Test Owner. All Rights Reserved.\n\n")
 
+    it 'inserts the copyright text at the beginning of the file', ->
+      editor.setText("foo\nbar\nbaz\nquux\n")
+      editor.moveToBottom()
+
+      AutoCopyright.insertCopyright(editor)
+      expect(editor.getText()).toEqual """
+      # Copyright (c) 3000 by Test Owner. All Rights Reserved.
+
+      foo
+      bar
+      baz
+      quux
+
+      """
+
+    it 'places the cursor at the same relative position after inserting', ->
+      editor.setText("foo\nbar\nbaz\nquux\n")
+      editor.moveToBottom()
+
+      AutoCopyright.insertCopyright(editor)
+      position = editor.getCursorBufferPosition()
+      editor.moveToBottom()
+
+      expect(position).toEqual editor.getCursorBufferPosition()
+
   describe 'when retrieving copyright text', ->
     it 'gets the template from the config', ->
       atom.config.set 'auto-copyright',
