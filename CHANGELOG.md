@@ -3,6 +3,7 @@
 ## **master** &mdash; *Unreleased*
 
 * :sparkles: [#7](https://github.com/lee-dohm/auto-copyright/issues/7) &mdash; Insert copyright command now inserts at the top of the file
+* :bug: [#6](https://github.com/lee-dohm/auto-copyright/issues/6) &mdash; Set default for `auto-copyright.owner` to eliminate error message
 
 ## **v0.2.0** &mdash; *Released: 6 November 2014*
 

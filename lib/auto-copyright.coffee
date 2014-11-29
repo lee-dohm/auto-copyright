@@ -15,6 +15,7 @@ class AutoCopyright
       maximum: 5
     owner:
       type: 'string'
+      default: 'Placeholder Inc.'
     template:
       type: 'string'
       default: 'Copyright (c) %y by %o. All Rights Reserved.'
@@ -34,7 +35,7 @@ class AutoCopyright
   #
   # Returns a {String} with the raw copyright text.
   getCopyrightText: ->
-    text = atom.config.get('auto-copyright.template') + "\n"
+    text = "#{atom.config.get('auto-copyright.template')}\n"
     text = text.replace('%y', @getYear()).replace('%o', atom.config.get('auto-copyright.owner'))
 
     @wrap(text, atom.config.get('auto-copyright.buffer'))
