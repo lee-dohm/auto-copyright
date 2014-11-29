@@ -1,7 +1,0 @@
---name 'Auto Copyright'
---readme README.md
---title 'Auto Copyright Documentation'
---quiet
-./lib
--
-LICENSE.md

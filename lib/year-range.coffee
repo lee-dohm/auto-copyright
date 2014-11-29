@@ -8,13 +8,13 @@ class YearRange
   # Internal: Array of years the copyright applies to.
   values: null
 
-  # Public: Initializes a new instance of the `YearRange` class.
+  # Public: Initializes a new instance of the {YearRange} class.
   #
-  # text - {String} of the year range to convert.
+  # * `text` {String} of the year range to convert.
   constructor: (text) ->
     @convert(text.toString())
 
-  # Public: Returns the year range as a `String`.
+  # Public: Returns the year range.
   #
   # Returns the year range as a {String}.
   toString: ->
@@ -43,7 +43,7 @@ class YearRange
 
   # Internal: Converts the text representation into a numeric array representation.
   #
-  # text - {String} of the year range to convert.
+  # * `text` {String} of the year range to convert.
   convert: (text) ->
     unless text.match /\d{4}(-\d{4})?((,\s*\d{4})|(\d{4}-\d{4}))*/
       throw new Error('Not a valid year range')
@@ -56,7 +56,7 @@ class YearRange
   # Internal: Converts the text representation of a single element of a year range into a numeric
   # array representation.
   #
-  # text - {String} containing a component of a year range.
+  # * `text` {String} containing a component of a year range.
   #
   # Returns either an {Array} of numbers representing a year range or a single year {Number}.
   convertItem: (text) ->

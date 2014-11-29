@@ -4,8 +4,9 @@
 
 YearRange = require './year-range'
 
-# Public: Handles the interface between the AutoCopyright package and Atom.
+# Public: Utilities for placing and updating copyright notices.
 class AutoCopyright
+  # Private: Package configuration metadata.
   config:
     buffer:
       type: 'integer'
@@ -49,7 +50,7 @@ class AutoCopyright
   #
   # Only checks for a copyright notice in the first ten lines of the file.
   #
-  # obj - Buffer to check for a copyright notice, either an {Editor} or {TextBuffer}
+  # * `obj` Buffer to check for a copyright notice, either an {TextEditor} or {TextBuffer}
   #
   # Returns a {Boolean} indicating whether this buffer has a copyright notice.
   hasCopyright: (obj) ->
@@ -59,7 +60,7 @@ class AutoCopyright
 
   # Private: Determines if the supplied text has a copyright notice.
   #
-  # text - A {String} of the text within which to search for a copyright notice.
+  # * `text` {String} of the text within which to search for a copyright notice.
   #
   # Returns {Boolean} indicating whether this text has a copyright notice.
   hasCopyrightInText: (text) ->
@@ -70,7 +71,7 @@ class AutoCopyright
   # Creates an undo transaction so that the multiple steps it takes to insert the text is one atomic
   # undo action.
   #
-  # editor - {Editor} in which to insert the copyright.
+  # * `editor` {TextEditor} in which to insert the copyright.
   insertCopyright: (editor) ->
     if !@hasCopyright(editor)
       editor.transact =>
@@ -83,14 +84,17 @@ class AutoCopyright
 
   # Private: Creates a string containing `text` concatenated `count` times.
   #
-  # text - {String} of the text to repeat.
-  # count - {Number} of times to repeat.
+  # * `text` {String} of the text to repeat.
+  # * `count` {Number} of times to repeat.
   #
   # Returns a {String} of the repeated text.
   multiplyText: (text, count) ->
     Array(count + 1).join(text)
 
   # Private: Wraps `text` in some number of newlines before and after it.
+  #
+  # * `text` {String} containing the text to be wrapped.
+  # * `buffer` {Number} of lines to place before and after `text`.
   #
   # Returns a {String} containing the wrapped text.
   wrap: (text, buffer) ->
