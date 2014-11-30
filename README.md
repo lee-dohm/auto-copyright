@@ -2,7 +2,7 @@
 
 # Auto-Copyright
 
-Inserts a copyright notice.
+Inserts or updates a copyright notice.
 
 ## Installation
 
@@ -12,7 +12,7 @@ This package can be installed from the Settings View by searching for `auto-copy
 
 ### Insert
 
-You can use the command palette, the Packages menu or the context menu in the buffer. This inserts the configured copyright text with the current year and configured owner text as a comment at the top of the file. The default copyright text looks like this:
+The `auto-copyright:insert` command adds the configured copyright text with the current year and configured owner text as a comment at the top of the file. The default copyright text looks like this:
 
 ```coffee
 #
@@ -21,6 +21,14 @@ You can use the command palette, the Packages menu or the context menu in the bu
 ```
 
 It can be configured to say as much or as little as you want, though.
+
+### Update
+
+When you execute the `auto-copyright:update` command, it updates the copyright year in a standard format by adding the current year to the list of years and compacting it in the following ways:
+
+* Disjoint years are separated by commas: 2000, 2005 and 2010 are represented as `2000, 2005, 2010`
+* Years in a series are represented by the start and end years separated by a hyphen: 2001, 2002 and 2003 are represented as `2001-2003`
+* Mixing and matching works too: 2001, 2002, 2003, 2005 and 2010 are represented as `2001-2003, 2005, 2010`
 
 ## Configuration
 
@@ -33,6 +41,7 @@ Auto Copyright supports the following configuration settings:
 ### Commands
 
 * `auto-copyright:insert` &mdash; Inserts the copyright text at the top of the file in the active editor
+* `auto-copyright:update` &mdash; Updates the year range of the copyright text at the top of the file, if it exists
 
 ### Keybindings
 

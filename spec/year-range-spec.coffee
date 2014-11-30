@@ -48,3 +48,10 @@ describe 'YearRange', ->
     it 'converts a mix of comma-separated years and year ranges', ->
       range = new YearRange('2004, 2011-2014, 2016-2017, 2020')
       expect(range.toString()).toEqual('2004, 2011-2014, 2016-2017, 2020')
+
+  describe '::addYear', ->
+    it 'adds the current year to the array if none is specified', ->
+      range = new YearRange('1999')
+      range.addYear()
+
+      expect(range.toString()).toEqual "1999, #{new Date().getFullYear()}"

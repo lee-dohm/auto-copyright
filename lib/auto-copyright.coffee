@@ -22,7 +22,11 @@ class AutoCopyright
 
   # Public: Performs all required setup when the package is activated.
   activate: ->
-    atom.workspaceView.command 'auto-copyright:insert', => @insert()
+    atom.commands.add 'atom-workspace',
+      'auto-copyright:insert': =>
+        @insert()
+      'auto-copyright:update': =>
+        @update()
 
   # Public: Inserts the copyright text at the current position in the buffer.
   insert: ->
@@ -30,6 +34,10 @@ class AutoCopyright
     return unless editor?
 
     @insertCopyright(editor)
+
+  # Public: Updates the copyright year range.
+  update: ->
+    @updateCopyright(atom.workspace.getActiveEditor())
 
   # Private: Gets the raw copyright text to insert.
   #
@@ -70,7 +78,7 @@ class AutoCopyright
   #
   # * `editor` {TextEditor} in which to insert the copyright.
   insertCopyright: (editor) ->
-    if not @hasCopyright(editor)
+    unless @hasCopyright(editor)
       @restoreCursor editor, =>
         editor.transact =>
           editor.setCursorBufferPosition([0, 0], autoscroll: false)
@@ -102,6 +110,16 @@ class AutoCopyright
 
     editor.setCursorBufferPosition(marker.getHeadBufferPosition())
     marker.destroy()
+
+  # Private: Updates copyright in the first ten lines.
+  #
+  # * `editor` {TextEditor} where the copyright should be updated.
+  updateCopyright: (editor) ->
+    if @hasCopyright(editor)
+      editor.scanInBufferRange YearRange.pattern, [[0, 0], [10, 0]], ({matchText, replace}) ->
+        yearRange = new YearRange(matchText)
+        yearRange.addYear(new Date().getFullYear())
+        replace(yearRange.toString())
 
   # Private: Wraps `text` in some number of newlines before and after it.
   #

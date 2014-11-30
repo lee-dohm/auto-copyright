@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## **master** &mdash; *Unreleased*
+## **v0.3.0** &mdash; *Released: 29 November 2014*
 
+* :sparkles: Now updates copyright year ranges with the `auto-copyright:update` command
 * :sparkles: [#7](https://github.com/lee-dohm/auto-copyright/issues/7) &mdash; Insert copyright command now inserts at the top of the file
 * :bug: [#6](https://github.com/lee-dohm/auto-copyright/issues/6) &mdash; Set default for `auto-copyright.owner` to eliminate error message
 

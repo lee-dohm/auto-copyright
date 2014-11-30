@@ -66,6 +66,43 @@ describe 'AutoCopyright', ->
 
       expect(position).toEqual editor.getCursorBufferPosition()
 
+  describe 'updating copyright text', ->
+    beforeEach ->
+      atom.config.set('auto-copyright.owner', 'Test Owner')
+      atom.config.set('auto-copyright.template', 'Copyright (c) %y by %o. All Rights Reserved.')
+
+    it 'does not update comments that have no copyright', ->
+      editor.setText """
+      #
+      # Foo bar baz
+      #
+      """
+
+      AutoCopyright.update(editor)
+
+      expect(editor.getText()).toEqual """
+      #
+      # Foo bar baz
+      #
+      """
+
+    it 'updates copyrights that match the pattern', ->
+      year = new Date().getFullYear() - 1
+
+      editor.setText """
+      #
+      # Copyright (c) #{year} by Test Owner. All Rights Reserved.
+      #
+      """
+
+      AutoCopyright.update(editor)
+
+      expect(editor.getText()).toEqual """
+      #
+      # Copyright (c) #{year}-#{year+1} by Test Owner. All Rights Reserved.
+      #
+      """
+
   describe 'when retrieving copyright text', ->
     it 'gets the template from the config', ->
       atom.config.set 'auto-copyright',

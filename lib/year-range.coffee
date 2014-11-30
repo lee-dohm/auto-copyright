@@ -5,6 +5,9 @@
 # Public: Represents an arbitrary collection of copyright years.
 module.exports =
 class YearRange
+  # Public: Regular expression used to match copyright year ranges.
+  @pattern: /\d{4}(-\d{4})?((,\s*\d{4})|(\d{4}-\d{4}))*/
+
   # Internal: Array of years the copyright applies to.
   values: null
 
@@ -13,6 +16,10 @@ class YearRange
   # * `text` {String} of the year range to convert.
   constructor: (text) ->
     @convert(text.toString())
+
+  # Public: Adds a year to the end of the list of years.
+  addYear: (year = new Date().getFullYear())->
+    @values.push(year)
 
   # Public: Returns the year range.
   #
@@ -45,7 +52,7 @@ class YearRange
   #
   # * `text` {String} of the year range to convert.
   convert: (text) ->
-    unless text.match /\d{4}(-\d{4})?((,\s*\d{4})|(\d{4}-\d{4}))*/
+    unless text.match YearRange.pattern
       throw new Error('Not a valid year range')
 
     temp = []
