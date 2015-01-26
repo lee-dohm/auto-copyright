@@ -66,6 +66,26 @@ describe 'AutoCopyright', ->
 
       expect(position).toEqual editor.getCursorBufferPosition()
 
+    it 'can handle multiple line templates', ->
+      editor.setText('')
+      atom.config.set 'auto-copyright.template',
+        """
+        Test %y %o
+
+        Testy
+        test
+        """
+
+      AutoCopyright.insertCopyright(editor)
+      expect(editor.getText()).toEqual """
+        # Test 3000 Test Owner
+        #\u0020
+        # Testy
+        # test
+
+
+        """
+
   describe 'updating copyright text', ->
     beforeEach ->
       atom.config.set('auto-copyright.owner', 'Test Owner')
