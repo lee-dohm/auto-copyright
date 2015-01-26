@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## **master** &mdash; *Unreleased*
+## **v0.3.1** &mdash; *Released: 25 January 2015*
 
+* Fixed all deprecations
 * Added instructions on how to have a multi-line copyright template.
 
 ## **v0.3.0** &mdash; *Released: 29 November 2014*

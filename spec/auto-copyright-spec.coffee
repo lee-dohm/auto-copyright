@@ -2,10 +2,9 @@
 # Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
 #
 
-fs = require 'fs-plus'
+fs = require 'fs'
 path = require 'path'
 temp = require 'temp'
-{WorkspaceView} = require 'atom'
 
 AutoCopyright = require '../lib/auto-copyright'
 
@@ -14,9 +13,7 @@ describe 'AutoCopyright', ->
 
   beforeEach ->
     directory = temp.mkdirSync()
-    atom.project.setPath(directory)
-    atom.workspaceView = new WorkspaceView()
-    atom.workspace = atom.workspaceView.model
+    atom.project.setPaths(directory)
     filePath = path.join(directory, 'sample.coffee')
     fs.writeFileSync(filePath, '')
 

@@ -37,7 +37,7 @@ class AutoCopyright
 
   # Public: Updates the copyright year range.
   update: ->
-    @updateCopyright(atom.workspace.getActiveEditor())
+    @updateCopyright(atom.workspace.getActiveTextEditor())
 
   # Private: Gets the raw copyright text to insert.
   #
