@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **master** &mdash; *Unreleased*
+
+* Added instructions on how to have a multi-line copyright template.
+
 ## **v0.3.0** &mdash; *Released: 29 November 2014*
 
 * :sparkles: Now updates copyright year ranges with the `auto-copyright:update` command
