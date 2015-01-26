@@ -38,6 +38,18 @@ Auto Copyright supports the following configuration settings:
 * `auto-copyright.owner` &mdash; Owner name to use when creating the copyright text.
 * `auto-copyright.template` &mdash; Copyright template to follow. `%y` will be replaced with the current year. `%o` will be replaced with the owner name. (Defaults to: `Copyright (c) %y by %o. All Rights Reserved.`)
 
+Multi-line templates *are* supported. At the time of this writing, Atom does not support multiline configuration attributes. In order to have a multi-line template, you must manually edit your `config.cson` using the CoffeeScript multi-line string format. For example:
+
+```coffee
+'*':
+  'auto-copyright':
+    'template': """
+      Copyright (c) %y by %o. All Rights Reserved.
+
+      Some standard boilerplate license text.
+    """
+```
+
 ### Commands
 
 * `auto-copyright:insert` &mdash; Inserts the copyright text at the top of the file in the active editor
@@ -49,4 +61,4 @@ No keybindings are assigned by default.
 
 ## Copyright
 
-Copyright &copy; 2014 [Lee Dohm](http://www.lee-dohm.com), [Lifted Studios](http://www.liftedstudios.com). See [LICENSE](LICENSE.md) for details.
+Copyright &copy; 2014-2015 [Lee Dohm](http://www.lee-dohm.com), [Lifted Studios](http://www.liftedstudios.com). See [LICENSE](https://github.com/lee-dohm/auto-copyright/blob/master/LICENSE.md) for details.
