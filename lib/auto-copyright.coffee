@@ -19,6 +19,14 @@ class AutoCopyright
     template:
       type: 'string'
       default: 'Copyright (c) %y by %o. All Rights Reserved.'
+    license:
+      type: 'string'
+    commentchar:
+      type: 'string'
+      default: '#'
+        #if html <!-- -->
+        #if css //
+        #if ...
 
   # Public: Performs all required setup when the package is activated.
   activate: ->
