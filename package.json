@@ -11,10 +11,10 @@
     "insert",
     "update"
   ],
-  "activationCommands": [
-    "auto-copyright:insert",
-    "auto-copyright:update"
-  ],
+  "activationCommands": {
+    "atom-workspace": "auto-copyright:insert",
+    "atom-workspace": "auto-copyright:update"
+  },
   "repository": "https://github.com/lee-dohm/auto-copyright",
   "license": "MIT",
   "engines": {

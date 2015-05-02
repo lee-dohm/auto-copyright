@@ -1,6 +1,8 @@
 'context-menu':
-  'atom-text-editor':
-    'Insert Copyright': 'auto-copyright:insert'
+  'atom-text-editor': [{
+    label: 'Insert Copyright',
+    command: 'auto-copyright:insert'
+  }]
 
 'menu': [
   {
