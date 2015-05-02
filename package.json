@@ -2,8 +2,14 @@
   "name": "auto-copyright",
   "main": "./lib/auto-copyright",
   "version": "0.3.1",
-  "private": true,
   "description": "Inserts a standard copyright notice",
+  "keywords": [
+    "file"
+    "header"
+    "copyright"
+    "insert"
+    "update"
+  ],
   "activationCommands": [
     "auto-copyright:insert"
   ],
