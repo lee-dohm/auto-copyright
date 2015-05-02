@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.4.1** &mdash; *Released: 1 May 2015*
+
+* :bug: Fix broken `activationCommands`
+
 ## **v0.4.0** &mdash; *Released: 1 May 2015*
 
 * Final cleanup prior to deprecation removal
