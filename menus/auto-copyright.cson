@@ -1,5 +1,5 @@
 'context-menu':
-  '.overlayer':
+  'atom-text-editor':
     'Insert Copyright': 'auto-copyright:insert'
 
 'menu': [

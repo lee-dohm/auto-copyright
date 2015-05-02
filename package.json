@@ -4,13 +4,13 @@
   "version": "0.3.1",
   "private": true,
   "description": "Inserts a standard copyright notice",
-  "activationEvents": [
+  "activationCommands": [
     "auto-copyright:insert"
   ],
   "repository": "https://github.com/lee-dohm/auto-copyright",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=0.174.0 <2.0.0"
   },
   "devDependencies": {
     "temp": "~0.6.0"
