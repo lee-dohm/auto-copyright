@@ -12,6 +12,7 @@
   ],
   "activationCommands": [
     "auto-copyright:insert"
+    "auto-copyright:update"
   ],
   "repository": "https://github.com/lee-dohm/auto-copyright",
   "license": "MIT",
