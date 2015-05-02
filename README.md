@@ -1,12 +1,6 @@
-[![Build Status](https://travis-ci.org/lee-dohm/auto-copyright.svg?branch=master)](https://travis-ci.org/lee-dohm/auto-copyright)
-
-# Auto-Copyright
+# Auto-Copyright [![Build Status](https://travis-ci.org/lee-dohm/auto-copyright.svg?branch=master)](https://travis-ci.org/lee-dohm/auto-copyright) [![Dependency Status](https://david-dm.org/lee-dohm/auto-copyright.svg)](https://david-dm.org/lee-dohm/auto-copyright)
 
 Inserts or updates a copyright notice.
-
-## Installation
-
-This package can be installed from the Settings View by searching for `auto-copyright` or can be installed from the command line by using the command: `apm install auto-copyright`.
 
 ## Usage
 
@@ -16,7 +10,7 @@ The `auto-copyright:insert` command adds the configured copyright text with the 
 
 ```coffee
 #
-# Copyright (c) 2014 by Placeholder Corporation. All Rights Reserved.
+# Copyright (c) 2015 by Placeholder Corporation. All Rights Reserved.
 #
 ```
 
@@ -38,7 +32,7 @@ Auto Copyright supports the following configuration settings:
 * `auto-copyright.owner` &mdash; Owner name to use when creating the copyright text.
 * `auto-copyright.template` &mdash; Copyright template to follow. `%y` will be replaced with the current year. `%o` will be replaced with the owner name. (Defaults to: `Copyright (c) %y by %o. All Rights Reserved.`)
 
-Multi-line templates *are* supported. At the time of this writing, Atom does not support multiline configuration attributes. In order to have a multi-line template, you must manually edit your `config.cson` using the CoffeeScript multi-line string format. For example:
+Multi-line templates *are* supported. At the time of this writing, Atom's Settings View does not support multiline configuration attributes. In order to have a multi-line template, you must manually edit your `config.cson` using the CoffeeScript multi-line string format. For example:
 
 ```coffee
 '*':
