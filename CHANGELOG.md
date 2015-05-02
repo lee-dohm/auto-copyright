@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **v0.4.0** &mdash; *Released: 1 May 2015*
+
+* Final cleanup prior to deprecation removal
+
 ## **v0.3.1** &mdash; *Released: 25 January 2015*
 
 * Fixed all deprecations
