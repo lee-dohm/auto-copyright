@@ -5,14 +5,14 @@
   "version": "0.3.1",
   "description": "Inserts a standard copyright notice",
   "keywords": [
-    "file"
-    "header"
-    "copyright"
-    "insert"
+    "file",
+    "header",
+    "copyright",
+    "insert",
     "update"
   ],
   "activationCommands": [
-    "auto-copyright:insert"
+    "auto-copyright:insert",
     "auto-copyright:update"
   ],
   "repository": "https://github.com/lee-dohm/auto-copyright",
