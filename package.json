@@ -1,6 +1,6 @@
 {
   "name": "auto-copyright",
-  "main": "./lib/auto-copyright",
+  "main": "./lib/main",
   "version": "0.4.1",
   "description": "Inserts a standard copyright notice",
   "keywords": [
@@ -11,8 +11,10 @@
     "update"
   ],
   "activationCommands": {
-    "atom-workspace": "auto-copyright:insert",
-    "atom-workspace": "auto-copyright:update"
+    "atom-workspace": [
+      "auto-copyright:insert",
+      "auto-copyright:update"
+    ]
   },
   "repository": "https://github.com/lee-dohm/auto-copyright",
   "license": "MIT",

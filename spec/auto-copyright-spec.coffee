@@ -4,9 +4,9 @@
 
 AutoCopyright = require '../lib/auto-copyright'
 
-{hasCommand} = require './spec-helper'
-
 describe 'AutoCopyright', ->
+  [activationPromise] = []
+
   beforeEach ->
     atom.config.set 'auto-copyright',
       template: 'Copyright (c) %y by %o. All Rights Reserved.'
@@ -17,34 +17,6 @@ describe 'AutoCopyright', ->
 
     waitsForPromise -> atom.packages.activatePackage('language-coffee-script')
 
-  describe 'lifecycle', ->
-    [workspaceElement] = []
-
-    beforeEach ->
-      workspaceElement = atom.views.getView(atom.workspace)
-
-      AutoCopyright.activate()
-
-    describe 'upon activation', ->
-      it 'creates the commands', ->
-        expect(hasCommand(workspaceElement, 'auto-copyright:insert')).toBeTruthy()
-        expect(hasCommand(workspaceElement, 'auto-copyright:update')).toBeTruthy()
-
-    describe 'upon deactivation', ->
-      beforeEach ->
-        AutoCopyright.deactivate()
-
-      it 'deletes the commands', ->
-        expect(hasCommand(workspaceElement, 'auto-copyright:insert')).toBeFalsy()
-        expect(hasCommand(workspaceElement, 'auto-copyright:update')).toBeFalsy()
-
-  describe 'when no editor is open', ->
-    it 'does not crash when insert is called', ->
-      AutoCopyright.insert()
-
-    it 'does not crash when update is called', ->
-      AutoCopyright.update()
-
   describe 'when an editor is open', ->
     [editor] = []
 
@@ -53,7 +25,7 @@ describe 'AutoCopyright', ->
 
     describe 'inserting copyright text', ->
       it 'inserts the copyright text', ->
-        AutoCopyright.insertCopyright(editor)
+        AutoCopyright.insertCopyright()
         text = editor.getText()
 
         expect(text).toEqual("# Copyright (c) 3000 by Test Owner. All Rights Reserved.\n\n")
@@ -61,7 +33,7 @@ describe 'AutoCopyright', ->
       it 'inserts the copyright text at the beginning of the file', ->
         editor.setText("foo\nbar\nbaz\nquux\n")
         editor.moveToBottom()
-        AutoCopyright.insert()
+        AutoCopyright.insertCopyright()
 
         expect(editor.getText()).toEqual """
         # Copyright (c) 3000 by Test Owner. All Rights Reserved.
@@ -77,7 +49,7 @@ describe 'AutoCopyright', ->
         editor.setText("foo\nbar\nbaz\nquux\n")
         editor.moveToBottom()
 
-        AutoCopyright.insert()
+        AutoCopyright.insertCopyright()
         position = editor.getCursorBufferPosition()
         editor.moveToBottom()
 
@@ -93,7 +65,7 @@ describe 'AutoCopyright', ->
           test
           """
 
-        AutoCopyright.insert()
+        AutoCopyright.insertCopyright()
 
         expect(editor.getText()).toEqual """
           # Test 3000 Test Owner
@@ -112,7 +84,7 @@ describe 'AutoCopyright', ->
         #
         """
 
-        AutoCopyright.update()
+        AutoCopyright.updateCopyright()
 
         expect(editor.getText()).toEqual """
         #
@@ -129,7 +101,7 @@ describe 'AutoCopyright', ->
         #
         """
 
-        AutoCopyright.update()
+        AutoCopyright.updateCopyright()
 
         expect(editor.getText()).toEqual """
         #

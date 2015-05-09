@@ -6,51 +6,6 @@ YearRange = require './year-range'
 
 # Public: Utilities for placing and updating copyright notices.
 class AutoCopyright
-  # Private: Package configuration metadata.
-  config:
-    buffer:
-      type: 'integer'
-      default: 1
-      minimum: 0
-      maximum: 5
-    owner:
-      type: 'string'
-      default: 'Placeholder Corporation'
-    template:
-      type: 'string'
-      default: 'Copyright (c) %y by %o. All Rights Reserved.'
-
-  ###
-  Section: Lifecycle
-  ###
-
-  # Public: Sets up the package.
-  activate: ->
-    @disposable = atom.commands.add 'atom-workspace',
-      'auto-copyright:insert': => @insert()
-      'auto-copyright:update': => @update()
-
-  # Public: Tears down the package.
-  deactivate: ->
-    @disposable?.dispose()
-    @disposable = null
-
-  ###
-  Section: Commands
-  ###
-
-  # Public: Inserts the copyright text at the current position in the buffer.
-  insert: ->
-    return unless editor = atom.workspace.getActiveTextEditor()
-
-    @insertCopyright(editor)
-
-  # Public: Updates the copyright year range.
-  update: ->
-    return unless editor = atom.workspace.getActiveTextEditor()
-
-    @updateCopyright(editor)
-
   # Private: Gets the raw copyright text to insert.
   #
   # Returns a {String} with the raw copyright text.
@@ -89,7 +44,7 @@ class AutoCopyright
   # Private: Inserts the copyright text at the current position.
   #
   # * `editor` {TextEditor} in which to insert the copyright.
-  insertCopyright: (editor) ->
+  insertCopyright: (editor = atom.workspace.getActiveTextEditor()) ->
     unless @hasCopyright(editor)
       @restoreCursor editor, =>
         editor.transact =>
@@ -126,7 +81,7 @@ class AutoCopyright
   # Private: Updates copyright in the first ten lines.
   #
   # * `editor` {TextEditor} where the copyright should be updated.
-  updateCopyright: (editor) ->
+  updateCopyright: (editor = atom.workspace.getActiveTextEditor()) ->
     if @hasCopyright(editor)
       editor.scanInBufferRange YearRange.pattern, [[0, 0], [10, 0]], ({matchText, replace}) ->
         yearRange = new YearRange(matchText)
