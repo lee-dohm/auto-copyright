@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## **master** &mdash; *Unreleased*
+
+* General cleanup of the code in preparation for adding features
+
 ## **v0.4.1** &mdash; *Released: 1 May 2015*
 
 * :bug: Fix broken `activationCommands`
