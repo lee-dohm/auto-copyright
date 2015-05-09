@@ -41,14 +41,15 @@ class AutoCopyright
 
   # Public: Inserts the copyright text at the current position in the buffer.
   insert: ->
-    editor = atom.workspace.getActiveTextEditor()
-    return unless editor?
+    return unless editor = atom.workspace.getActiveTextEditor()
 
     @insertCopyright(editor)
 
   # Public: Updates the copyright year range.
   update: ->
-    @updateCopyright(atom.workspace.getActiveTextEditor())
+    return unless editor = atom.workspace.getActiveTextEditor()
+
+    @updateCopyright(editor)
 
   # Private: Gets the raw copyright text to insert.
   #
