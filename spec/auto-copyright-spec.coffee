@@ -1,11 +1,11 @@
 #
-# Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
+# Copyright (c) 2014-2015 by Lifted Studios. All Rights Reserved.
 #
 
 AutoCopyright = require '../lib/auto-copyright'
 
 describe 'AutoCopyright', ->
-  [buffer, editor] = []
+  [editor] = []
 
   beforeEach ->
     atom.config.set('auto-copyright.template', 'Copyright (c) %y by %o. All Rights Reserved.')
@@ -17,9 +17,7 @@ describe 'AutoCopyright', ->
       atom.packages.activatePackage('language-coffee-script')
 
     waitsForPromise ->
-      atom.workspace.open('sample.coffee').then (e) ->
-        editor = e
-        buffer = editor.getBuffer()
+      atom.workspace.open('sample.coffee').then (e) -> editor = e
 
   describe 'inserting copyright text', ->
     beforeEach ->
@@ -146,10 +144,10 @@ describe 'AutoCopyright', ->
 
   describe 'when detecting if the editor already has a copyright', ->
     it 'returns false on an empty file', ->
-      expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
+      expect(AutoCopyright.hasCopyright(editor)).toBeFalsy()
 
     it 'returns false on a file without a copyright notice', ->
-      buffer.setText(
+      editor.setText(
         """
         #
         # Just an opening comment without a notice
@@ -157,10 +155,10 @@ describe 'AutoCopyright', ->
         """
       )
 
-      expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
+      expect(AutoCopyright.hasCopyright(editor)).toBeFalsy()
 
     it 'returns true on a file with a copyright notice', ->
-      buffer.setText(
+      editor.setText(
         """
         #
         # Copyright (c) 3000 by Foo Corp. All Rights Reserved.
@@ -168,10 +166,10 @@ describe 'AutoCopyright', ->
         """
       )
 
-      expect(AutoCopyright.hasCopyright(buffer)).toBeTruthy()
+      expect(AutoCopyright.hasCopyright(editor)).toBeTruthy()
 
     it 'returns false on a file with a copyright notice past the first ten lines', ->
-      buffer.setText(
+      editor.setText(
         """
         \n\n\n\n\n\n\n\n\n\n
         #
@@ -180,4 +178,4 @@ describe 'AutoCopyright', ->
         """
       )
 
-      expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
+      expect(AutoCopyright.hasCopyright(editor)).toBeFalsy()
