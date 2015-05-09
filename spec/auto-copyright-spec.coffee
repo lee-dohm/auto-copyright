@@ -13,11 +13,8 @@ describe 'AutoCopyright', ->
 
     spyOn(Date.prototype, 'getFullYear').andReturn 3000
 
-    waitsForPromise ->
-      atom.packages.activatePackage('language-coffee-script')
-
-    waitsForPromise ->
-      atom.workspace.open('sample.coffee').then (e) -> editor = e
+    waitsForPromise -> atom.packages.activatePackage('language-coffee-script')
+    waitsForPromise -> atom.workspace.open('sample.coffee').then (e) -> editor = e
 
   describe 'inserting copyright text', ->
     beforeEach ->
@@ -31,7 +28,7 @@ describe 'AutoCopyright', ->
       editor.setText("foo\nbar\nbaz\nquux\n")
       editor.moveToBottom()
 
-      AutoCopyright.insertCopyright(editor)
+      AutoCopyright.insert()
       expect(editor.getText()).toEqual """
       # Copyright (c) 3000 by Test Owner. All Rights Reserved.
 
@@ -46,7 +43,7 @@ describe 'AutoCopyright', ->
       editor.setText("foo\nbar\nbaz\nquux\n")
       editor.moveToBottom()
 
-      AutoCopyright.insertCopyright(editor)
+      AutoCopyright.insert()
       position = editor.getCursorBufferPosition()
       editor.moveToBottom()
 
@@ -62,7 +59,7 @@ describe 'AutoCopyright', ->
         test
         """
 
-      AutoCopyright.insertCopyright(editor)
+      AutoCopyright.insert()
       expect(editor.getText()).toEqual """
         # Test 3000 Test Owner
         #\u0020
@@ -84,7 +81,7 @@ describe 'AutoCopyright', ->
       #
       """
 
-      AutoCopyright.update(editor)
+      AutoCopyright.update()
 
       expect(editor.getText()).toEqual """
       #
@@ -101,7 +98,7 @@ describe 'AutoCopyright', ->
       #
       """
 
-      AutoCopyright.update(editor)
+      AutoCopyright.update()
 
       expect(editor.getText()).toEqual """
       #
@@ -116,7 +113,7 @@ describe 'AutoCopyright', ->
         owner: 'Test Owner'
         buffer: 0
 
-      expect(AutoCopyright.getCopyrightText()).toEqual("template test\n")
+      expect(AutoCopyright.getCopyrightText()).toEqual "template test\n"
 
     it 'replaces %y with the current year', ->
       atom.config.set 'auto-copyright',
@@ -124,7 +121,7 @@ describe 'AutoCopyright', ->
         owner: 'Test Owner'
         buffer: 0
 
-      expect(AutoCopyright.getCopyrightText()).toEqual("3000\n")
+      expect(AutoCopyright.getCopyrightText()).toEqual "3000\n"
 
     it 'replaces %o with the owner name', ->
       atom.config.set 'auto-copyright',
@@ -132,7 +129,7 @@ describe 'AutoCopyright', ->
         owner: 'Test Owner'
         buffer: 0
 
-      expect(AutoCopyright.getCopyrightText()).toEqual("Test Owner\n")
+      expect(AutoCopyright.getCopyrightText()).toEqual "Test Owner\n"
 
     it 'wraps the text in buffer lines if configured', ->
       atom.config.set 'auto-copyright',
