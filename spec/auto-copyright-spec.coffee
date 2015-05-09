@@ -4,6 +4,8 @@
 
 AutoCopyright = require '../lib/auto-copyright'
 
+{hasCommand} = require './spec-helper'
+
 describe 'AutoCopyright', ->
   [editor] = []
 
@@ -17,6 +19,27 @@ describe 'AutoCopyright', ->
 
     waitsForPromise -> atom.packages.activatePackage('language-coffee-script')
     waitsForPromise -> atom.workspace.open('sample.coffee').then (e) -> editor = e
+
+  describe 'lifecycle', ->
+    [workspaceElement] = []
+
+    beforeEach ->
+      workspaceElement = atom.views.getView(atom.workspace)
+
+      AutoCopyright.activate()
+
+    describe 'upon activation', ->
+      it 'creates the commands', ->
+        expect(hasCommand(workspaceElement, 'auto-copyright:insert')).toBeTruthy()
+        expect(hasCommand(workspaceElement, 'auto-copyright:update')).toBeTruthy()
+
+    describe 'upon deactivation', ->
+      beforeEach ->
+        AutoCopyright.deactivate()
+
+      it 'deletes the commands', ->
+        expect(hasCommand(workspaceElement, 'auto-copyright:insert')).toBeFalsy()
+        expect(hasCommand(workspaceElement, 'auto-copyright:update')).toBeFalsy()
 
   describe 'inserting copyright text', ->
     it 'inserts the copyright text', ->
