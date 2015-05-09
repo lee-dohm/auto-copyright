@@ -21,13 +21,14 @@ describe 'AutoCopyright', ->
   describe 'inserting copyright text', ->
     it 'inserts the copyright text', ->
       AutoCopyright.insertCopyright(editor)
+
       expect(editor.getText()).toBe("# Copyright (c) 3000 by Test Owner. All Rights Reserved.\n\n")
 
     it 'inserts the copyright text at the beginning of the file', ->
       editor.setText("foo\nbar\nbaz\nquux\n")
       editor.moveToBottom()
-
       AutoCopyright.insert()
+
       expect(editor.getText()).toEqual """
       # Copyright (c) 3000 by Test Owner. All Rights Reserved.
 
@@ -59,6 +60,7 @@ describe 'AutoCopyright', ->
         """
 
       AutoCopyright.insert()
+
       expect(editor.getText()).toEqual """
         # Test 3000 Test Owner
         #\u0020
