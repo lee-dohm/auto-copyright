@@ -2,23 +2,16 @@
 # Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
 #
 
-fs = require 'fs'
-path = require 'path'
-temp = require 'temp'
-
 AutoCopyright = require '../lib/auto-copyright'
 
 describe 'AutoCopyright', ->
   [buffer, editor] = []
 
   beforeEach ->
-    directory = temp.mkdirSync()
-    atom.project.setPaths(directory)
-    filePath = path.join(directory, 'sample.coffee')
-    fs.writeFileSync(filePath, '')
-
     atom.config.set('auto-copyright.template', 'Copyright (c) %y by %o. All Rights Reserved.')
     atom.config.set('auto-copyright.buffer', 0)
+
+    spyOn(Date.prototype, 'getFullYear').andReturn 3000
 
     waitsForPromise ->
       atom.packages.activatePackage('language-coffee-script')
@@ -30,8 +23,6 @@ describe 'AutoCopyright', ->
 
   describe 'inserting copyright text', ->
     beforeEach ->
-      spyOn(AutoCopyright, 'getYear').andReturn('3000')
-
       atom.config.set('auto-copyright.owner', 'Test Owner')
 
     it 'inserts the copyright text', ->
@@ -135,7 +126,6 @@ describe 'AutoCopyright', ->
         owner: 'Test Owner'
         buffer: 0
 
-      spyOn(AutoCopyright, 'getYear').andReturn('3000')
       expect(AutoCopyright.getCopyrightText()).toEqual("3000\n")
 
     it 'replaces %o with the owner name', ->
