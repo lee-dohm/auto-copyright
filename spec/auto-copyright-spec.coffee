@@ -8,8 +8,10 @@ describe 'AutoCopyright', ->
   [editor] = []
 
   beforeEach ->
-    atom.config.set('auto-copyright.template', 'Copyright (c) %y by %o. All Rights Reserved.')
-    atom.config.set('auto-copyright.buffer', 0)
+    atom.config.set 'auto-copyright',
+      template: 'Copyright (c) %y by %o. All Rights Reserved.'
+      owner: 'Test Owner'
+      buffer: 0
 
     spyOn(Date.prototype, 'getFullYear').andReturn 3000
 
@@ -17,9 +19,6 @@ describe 'AutoCopyright', ->
     waitsForPromise -> atom.workspace.open('sample.coffee').then (e) -> editor = e
 
   describe 'inserting copyright text', ->
-    beforeEach ->
-      atom.config.set('auto-copyright.owner', 'Test Owner')
-
     it 'inserts the copyright text', ->
       AutoCopyright.insertCopyright(editor)
       expect(editor.getText()).toBe("# Copyright (c) 3000 by Test Owner. All Rights Reserved.\n\n")
@@ -70,10 +69,6 @@ describe 'AutoCopyright', ->
         """
 
   describe 'updating copyright text', ->
-    beforeEach ->
-      atom.config.set('auto-copyright.owner', 'Test Owner')
-      atom.config.set('auto-copyright.template', 'Copyright (c) %y by %o. All Rights Reserved.')
-
     it 'does not update comments that have no copyright', ->
       editor.setText """
       #
@@ -108,26 +103,17 @@ describe 'AutoCopyright', ->
 
   describe 'when retrieving copyright text', ->
     it 'gets the template from the config', ->
-      atom.config.set 'auto-copyright',
-        template: 'template test'
-        owner: 'Test Owner'
-        buffer: 0
+      atom.config.set 'auto-copyright.template', 'template test'
 
       expect(AutoCopyright.getCopyrightText()).toEqual "template test\n"
 
     it 'replaces %y with the current year', ->
-      atom.config.set 'auto-copyright',
-        template: '%y'
-        owner: 'Test Owner'
-        buffer: 0
+      atom.config.set 'auto-copyright.template', '%y'
 
       expect(AutoCopyright.getCopyrightText()).toEqual "3000\n"
 
     it 'replaces %o with the owner name', ->
-      atom.config.set 'auto-copyright',
-        template: '%o'
-        owner: 'Test Owner'
-        buffer: 0
+      atom.config.set 'auto-copyright.template', '%o'
 
       expect(AutoCopyright.getCopyrightText()).toEqual "Test Owner\n"
 
