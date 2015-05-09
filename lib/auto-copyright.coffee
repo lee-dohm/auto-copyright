@@ -27,10 +27,8 @@ class AutoCopyright
   # Public: Sets up the package.
   activate: ->
     @disposable = atom.commands.add 'atom-workspace',
-      'auto-copyright:insert': =>
-        @insert()
-      'auto-copyright:update': =>
-        @update()
+      'auto-copyright:insert': => @insert()
+      'auto-copyright:update': => @update()
 
   # Public: Tears down the package.
   deactivate: ->
