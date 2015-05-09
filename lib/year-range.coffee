@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
+# Copyright (c) 2014-2015 by Lifted Studios. All Rights Reserved.
 #
 
 # Public: Represents an arbitrary collection of copyright years.
