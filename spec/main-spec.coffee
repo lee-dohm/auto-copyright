@@ -21,20 +21,20 @@ describe 'Package', ->
     activationPromise = atom.packages.activatePackage('auto-copyright')
 
   describe 'lifecycle', ->
-    executeCommand = (commandName, callback) ->
-      atom.commands.dispatch(workspaceElement, "auto-copyright:#{commandName}")
+    executeCommand = (callback) ->
+      atom.commands.dispatch(workspaceElement, "auto-copyright:insert")
       waitsForPromise -> activationPromise
       runs(callback)
 
     describe 'upon activation', ->
       it 'creates the commands', ->
-        executeCommand 'insert', ->
+        executeCommand ->
           expect(hasCommand(workspaceElement, 'auto-copyright:insert')).toBeTruthy()
           expect(hasCommand(workspaceElement, 'auto-copyright:update')).toBeTruthy()
 
     describe 'upon deactivation', ->
       beforeEach ->
-        executeCommand 'insert', ->
+        executeCommand ->
           atom.packages.deactivatePackage('auto-copyright')
 
       it 'deletes the commands', ->
