@@ -1,10 +1,13 @@
 #
-# Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
+# Copyright (c) 2014-2015 by Lifted Studios. All Rights Reserved.
 #
 
 YearRange = require '../lib/year-range'
 
 describe 'YearRange', ->
+  beforeEach ->
+    spyOn(Date.prototype, 'getFullYear').andReturn 3000
+
   describe 'when constructing a year range', ->
     it 'rejects strings that contain anything other than digits, commas and hyphens', ->
       expect( -> new YearRange('/')).toThrow()
@@ -54,4 +57,4 @@ describe 'YearRange', ->
       range = new YearRange('1999')
       range.addYear()
 
-      expect(range.toString()).toEqual "1999, #{new Date().getFullYear()}"
+      expect(range.toString()).toEqual '1999, 3000'

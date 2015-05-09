@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
+# Copyright (c) 2014-2015 by Lifted Studios. All Rights Reserved.
 #
 
 # Public: Represents an arbitrary collection of copyright years.
@@ -57,7 +57,9 @@ class YearRange
 
     temp = []
     items = text.split(/,\s*/)
-    temp = temp.concat(@convertItem(item)) for item in items
+    for item in items
+      temp = temp.concat(@convertItem(item))
+
     @values = temp
 
   # Internal: Converts the text representation of a single element of a year range into a numeric

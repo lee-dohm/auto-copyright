@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
+# Copyright (c) 2014-2015 by Lifted Studios. All Rights Reserved.
 #
 
 YearRange = require './year-range'
@@ -20,17 +20,28 @@ class AutoCopyright
       type: 'string'
       default: 'Copyright (c) %y by %o. All Rights Reserved.'
 
-  # Public: Performs all required setup when the package is activated.
+  ###
+  Section: Lifecycle
+  ###
+
+  # Public: Sets up the package.
   activate: ->
-    atom.commands.add 'atom-workspace',
-      'auto-copyright:insert': =>
-        @insert()
-      'auto-copyright:update': =>
-        @update()
+    @disposable = atom.commands.add 'atom-workspace',
+      'auto-copyright:insert': => @insert()
+      'auto-copyright:update': => @update()
+
+  # Public: Tears down the package.
+  deactivate: ->
+    @disposable?.dispose()
+    @disposable = null
+
+  ###
+  Section: Commands
+  ###
 
   # Public: Inserts the copyright text at the current position in the buffer.
   insert: ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     return unless editor?
 
     @insertCopyright(editor)

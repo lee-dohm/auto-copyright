@@ -1,48 +1,57 @@
 #
-# Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
+# Copyright (c) 2014-2015 by Lifted Studios. All Rights Reserved.
 #
-
-fs = require 'fs'
-path = require 'path'
-temp = require 'temp'
 
 AutoCopyright = require '../lib/auto-copyright'
 
+{hasCommand} = require './spec-helper'
+
 describe 'AutoCopyright', ->
-  [buffer, editor] = []
+  [editor] = []
 
   beforeEach ->
-    directory = temp.mkdirSync()
-    atom.project.setPaths(directory)
-    filePath = path.join(directory, 'sample.coffee')
-    fs.writeFileSync(filePath, '')
+    atom.config.set 'auto-copyright',
+      template: 'Copyright (c) %y by %o. All Rights Reserved.'
+      owner: 'Test Owner'
+      buffer: 0
 
-    atom.config.set('auto-copyright.template', 'Copyright (c) %y by %o. All Rights Reserved.')
-    atom.config.set('auto-copyright.buffer', 0)
+    spyOn(Date.prototype, 'getFullYear').andReturn 3000
 
-    waitsForPromise ->
-      atom.packages.activatePackage('language-coffee-script')
+    waitsForPromise -> atom.packages.activatePackage('language-coffee-script')
+    waitsForPromise -> atom.workspace.open('sample.coffee').then (e) -> editor = e
 
-    waitsForPromise ->
-      atom.workspace.open('sample.coffee').then (e) ->
-        editor = e
-        buffer = editor.getBuffer()
+  describe 'lifecycle', ->
+    [workspaceElement] = []
+
+    beforeEach ->
+      workspaceElement = atom.views.getView(atom.workspace)
+
+      AutoCopyright.activate()
+
+    describe 'upon activation', ->
+      it 'creates the commands', ->
+        expect(hasCommand(workspaceElement, 'auto-copyright:insert')).toBeTruthy()
+        expect(hasCommand(workspaceElement, 'auto-copyright:update')).toBeTruthy()
+
+    describe 'upon deactivation', ->
+      beforeEach ->
+        AutoCopyright.deactivate()
+
+      it 'deletes the commands', ->
+        expect(hasCommand(workspaceElement, 'auto-copyright:insert')).toBeFalsy()
+        expect(hasCommand(workspaceElement, 'auto-copyright:update')).toBeFalsy()
 
   describe 'inserting copyright text', ->
-    beforeEach ->
-      spyOn(AutoCopyright, 'getYear').andReturn('3000')
-
-      atom.config.set('auto-copyright.owner', 'Test Owner')
-
     it 'inserts the copyright text', ->
       AutoCopyright.insertCopyright(editor)
+
       expect(editor.getText()).toBe("# Copyright (c) 3000 by Test Owner. All Rights Reserved.\n\n")
 
     it 'inserts the copyright text at the beginning of the file', ->
       editor.setText("foo\nbar\nbaz\nquux\n")
       editor.moveToBottom()
+      AutoCopyright.insert()
 
-      AutoCopyright.insertCopyright(editor)
       expect(editor.getText()).toEqual """
       # Copyright (c) 3000 by Test Owner. All Rights Reserved.
 
@@ -57,7 +66,7 @@ describe 'AutoCopyright', ->
       editor.setText("foo\nbar\nbaz\nquux\n")
       editor.moveToBottom()
 
-      AutoCopyright.insertCopyright(editor)
+      AutoCopyright.insert()
       position = editor.getCursorBufferPosition()
       editor.moveToBottom()
 
@@ -73,7 +82,8 @@ describe 'AutoCopyright', ->
         test
         """
 
-      AutoCopyright.insertCopyright(editor)
+      AutoCopyright.insert()
+
       expect(editor.getText()).toEqual """
         # Test 3000 Test Owner
         #\u0020
@@ -84,10 +94,6 @@ describe 'AutoCopyright', ->
         """
 
   describe 'updating copyright text', ->
-    beforeEach ->
-      atom.config.set('auto-copyright.owner', 'Test Owner')
-      atom.config.set('auto-copyright.template', 'Copyright (c) %y by %o. All Rights Reserved.')
-
     it 'does not update comments that have no copyright', ->
       editor.setText """
       #
@@ -95,7 +101,7 @@ describe 'AutoCopyright', ->
       #
       """
 
-      AutoCopyright.update(editor)
+      AutoCopyright.update()
 
       expect(editor.getText()).toEqual """
       #
@@ -112,7 +118,7 @@ describe 'AutoCopyright', ->
       #
       """
 
-      AutoCopyright.update(editor)
+      AutoCopyright.update()
 
       expect(editor.getText()).toEqual """
       #
@@ -122,29 +128,19 @@ describe 'AutoCopyright', ->
 
   describe 'when retrieving copyright text', ->
     it 'gets the template from the config', ->
-      atom.config.set 'auto-copyright',
-        template: 'template test'
-        owner: 'Test Owner'
-        buffer: 0
+      atom.config.set 'auto-copyright.template', 'template test'
 
-      expect(AutoCopyright.getCopyrightText()).toEqual("template test\n")
+      expect(AutoCopyright.getCopyrightText()).toEqual "template test\n"
 
     it 'replaces %y with the current year', ->
-      atom.config.set 'auto-copyright',
-        template: '%y'
-        owner: 'Test Owner'
-        buffer: 0
+      atom.config.set 'auto-copyright.template', '%y'
 
-      spyOn(AutoCopyright, 'getYear').andReturn('3000')
-      expect(AutoCopyright.getCopyrightText()).toEqual("3000\n")
+      expect(AutoCopyright.getCopyrightText()).toEqual "3000\n"
 
     it 'replaces %o with the owner name', ->
-      atom.config.set 'auto-copyright',
-        template: '%o'
-        owner: 'Test Owner'
-        buffer: 0
+      atom.config.set 'auto-copyright.template', '%o'
 
-      expect(AutoCopyright.getCopyrightText()).toEqual("Test Owner\n")
+      expect(AutoCopyright.getCopyrightText()).toEqual "Test Owner\n"
 
     it 'wraps the text in buffer lines if configured', ->
       atom.config.set 'auto-copyright',
@@ -156,10 +152,10 @@ describe 'AutoCopyright', ->
 
   describe 'when detecting if the editor already has a copyright', ->
     it 'returns false on an empty file', ->
-      expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
+      expect(AutoCopyright.hasCopyright(editor)).toBeFalsy()
 
     it 'returns false on a file without a copyright notice', ->
-      buffer.setText(
+      editor.setText(
         """
         #
         # Just an opening comment without a notice
@@ -167,10 +163,10 @@ describe 'AutoCopyright', ->
         """
       )
 
-      expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
+      expect(AutoCopyright.hasCopyright(editor)).toBeFalsy()
 
     it 'returns true on a file with a copyright notice', ->
-      buffer.setText(
+      editor.setText(
         """
         #
         # Copyright (c) 3000 by Foo Corp. All Rights Reserved.
@@ -178,10 +174,10 @@ describe 'AutoCopyright', ->
         """
       )
 
-      expect(AutoCopyright.hasCopyright(buffer)).toBeTruthy()
+      expect(AutoCopyright.hasCopyright(editor)).toBeTruthy()
 
     it 'returns false on a file with a copyright notice past the first ten lines', ->
-      buffer.setText(
+      editor.setText(
         """
         \n\n\n\n\n\n\n\n\n\n
         #
@@ -190,4 +186,4 @@ describe 'AutoCopyright', ->
         """
       )
 
-      expect(AutoCopyright.hasCopyright(buffer)).toBeFalsy()
+      expect(AutoCopyright.hasCopyright(editor)).toBeFalsy()
