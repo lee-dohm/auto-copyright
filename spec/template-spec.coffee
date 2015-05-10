@@ -34,6 +34,24 @@ describe 'Template', ->
 
       expect(text).toEqual '3000'
 
+    it 'inserts the file name', ->
+      waitsForPromise ->
+        atom.workspace.open('test.coffee')
+
+      runs ->
+        text = new Template('{{filename}}').toString()
+
+        expect(text).toEqual 'test.coffee'
+
+    it 'inserts the project-relative path', ->
+      waitsForPromise ->
+        atom.workspace.open('foo/bar/test.coffee')
+
+      runs ->
+        text = new Template('{{path}}').toString()
+
+        expect(text).toEqual 'foo/bar/test.coffee'
+
   describe 'with user-defined replacements', ->
     beforeEach ->
       spyOn(atom, 'getConfigDirPath').andReturn path.join(__dirname, 'fixtures')

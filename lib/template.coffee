@@ -2,7 +2,9 @@ path = require 'path'
 _ = require 'underscore-plus'
 
 defaultReplacements =
+  filename: -> path.basename(atom.workspace.getActiveTextEditor()?.getPath())
   owner: -> atom.config.get('auto-copyright.owner')
+  path: -> atom.project.relativizePath(atom.workspace.getActiveTextEditor()?.getPath())[1]
   year: -> new Date().getFullYear()
 
 # Public: A template that replaces text in a rule-based fashion.
