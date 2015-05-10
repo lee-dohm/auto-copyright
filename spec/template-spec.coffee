@@ -35,3 +35,8 @@ describe 'Template', ->
       text = new Template('foo {{foozle}} baz').toString()
 
       expect(text).toEqual 'foo supercalifragilisticexpialidocious baz'
+
+    it 'will use user-defined replacements over the defaults', ->
+      text = new Template('foo {{owner}} baz').toString()
+
+      expect(text).toEqual 'foo Some Other Owner baz'
