@@ -20,12 +20,19 @@ describe 'Template', ->
 
       expect(template.toString()).toEqual 'foo bar baz'
 
-    it 'has default replacements', ->
-      expect(new Template('foo {{owner}} baz').toString()).toEqual 'foo Test Owner baz'
-      expect(new Template('foo {{year}} baz').toString()).toEqual 'foo 3000 baz'
-
-    it 'will replace the old-style %y and %o still', ->
+  describe 'default replacements', ->
+    it 'will replace the legacy %y and %o', ->
       expect(new Template('%y %o').toString()).toEqual '3000 Test Owner'
+
+    it 'inserts the owner text', ->
+      text = new Template('{{owner}}').toString()
+
+      expect(text).toEqual 'Test Owner'
+
+    it 'inserts the current year', ->
+      text = new Template('{{year}}').toString()
+
+      expect(text).toEqual '3000'
 
   describe 'with user-defined replacements', ->
     beforeEach ->
