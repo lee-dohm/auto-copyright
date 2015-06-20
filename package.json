@@ -1,7 +1,7 @@
 {
   "name": "auto-copyright",
   "main": "./lib/main",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Inserts a standard copyright notice",
   "keywords": [
     "file",
