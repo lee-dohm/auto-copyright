@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## **master** &mdash; *Unreleased*
+## **v0.5.0** &mdash; *Released: 19 June 2015*
 
 * General cleanup of the code in preparation for adding features
 
