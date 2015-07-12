@@ -2,6 +2,7 @@
 # Copyright (c) 2014-2015 by Lifted Studios. All Rights Reserved.
 #
 
+Template = require './template'
 YearRange = require './year-range'
 
 # Public: Utilities for placing and updating copyright notices.
@@ -10,10 +11,8 @@ class AutoCopyright
   #
   # Returns a {String} with the raw copyright text.
   getCopyrightText: ->
-    text = "#{atom.config.get('auto-copyright.template')}\n"
-    text = text.replace('%y', @getYear()).replace('%o', atom.config.get('auto-copyright.owner'))
-
-    @wrap(text, atom.config.get('auto-copyright.buffer'))
+    template = new Template(atom.config.get('auto-copyright.template') + "\n")
+    @wrap(template.toString(), atom.config.get('auto-copyright.buffer'))
 
   # Private: Gets the current year and formats as a year range.
   #
