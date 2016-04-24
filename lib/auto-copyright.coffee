@@ -11,7 +11,7 @@ class AutoCopyright
   # Returns a {String} with the raw copyright text.
   getCopyrightText: ->
     text = "#{atom.config.get('auto-copyright.template')}\n"
-    text = text.replace('%y', @getYear()).replace('%o', atom.config.get('auto-copyright.owner'))
+    text = text.replace(/%y/g, @getYear()).replace(/%o/g, atom.config.get('auto-copyright.owner'))
 
     @wrap(text, atom.config.get('auto-copyright.buffer'))
 
