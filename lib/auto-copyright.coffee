@@ -31,7 +31,8 @@ class AutoCopyright
   hasCopyright: (obj) ->
     return @hasCopyright(obj.buffer) if obj.buffer?
 
-    @hasCopyrightInText(obj.getTextInRange([[0, 0], [10, 0]]))
+    unless Object.keys(obj).length is 0
+      @hasCopyrightInText(obj.getTextInRange([[0, 0], [10, 0]]))
 
   # Private: Determines if the supplied text has a copyright notice.
   #
