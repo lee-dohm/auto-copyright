@@ -2,6 +2,7 @@
 # Copyright (c) 2014-2015 by Lifted Studios. All Rights Reserved.
 #
 
+{TextBuffer} = require 'atom'
 YearRange = require './year-range'
 
 # Public: Utilities for placing and updating copyright notices.
@@ -29,7 +30,7 @@ class AutoCopyright
   #
   # Returns a {Boolean} indicating whether this buffer has a copyright notice.
   hasCopyright: (obj) ->
-    return @hasCopyright(obj.buffer) if obj.buffer?
+    return @hasCopyright(obj.buffer) if obj.buffer? and obj.buffer instanceof TextBuffer
 
     @hasCopyrightInText(obj.getTextInRange([[0, 0], [10, 0]]))
 
@@ -71,7 +72,7 @@ class AutoCopyright
   # * `editor` {TextEditor} where the cursor is.
   # * `callback` A {Function} that manipulates the cursor position.
   restoreCursor: (editor, callback) ->
-    marker = editor.markBufferPosition(editor.getCursorBufferPosition(), persistent: false)
+    marker = editor.markBufferPosition(editor.getCursorBufferPosition())
 
     callback()
 
