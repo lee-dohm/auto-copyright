@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## **v0.6.0** &mdash; *Released: 19 December 2017*
+
+* Allow multiple variable repetition [#17](https://github.com/lee-dohm/auto-copyright/pull/17) by [@andreasonny83](https://github.com/andreasonny83)
+* Fix broken tests and deprecations [#24](https://github.com/lee-dohm/auto-copyright/pull/24)
+
 ## **v0.5.0** &mdash; *Released: 19 June 2015*
 
 * General cleanup of the code in preparation for adding features
