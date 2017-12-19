@@ -53,6 +53,6 @@ Multi-line templates *are* supported. At the time of this writing, Atom's Settin
 
 No keybindings are assigned by default.
 
-## Copyright
+## License
 
-Copyright &copy; 2014-2015 [Lee Dohm](http://www.lee-dohm.com), [Lifted Studios](http://www.liftedstudios.com). See [LICENSE](https://github.com/lee-dohm/auto-copyright/blob/master/LICENSE.md) for details.
+[MIT](LICENSE.md)

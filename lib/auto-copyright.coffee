@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2014-2015 by Lifted Studios. All Rights Reserved.
+# Copyright (c) 2014-2015, 2017 by Lifted Studios. All Rights Reserved.
 #
 
 {TextBuffer} = require 'atom'
